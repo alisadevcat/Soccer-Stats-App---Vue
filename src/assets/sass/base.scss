@@ -1,0 +1,69 @@
+
+/* reset styles */
+* {
+  color: inherit;
+  margin: 0;
+}
+html, body{
+  height: 100% !important;
+}
+
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+hr {
+  border: 0;
+  border-top: 1px dotted #efefef;
+}
+
+img {
+  max-width: 100%;
+}
+
+.test {
+  color: $primary;
+}
+.my-class{
+  color: purple;
+}
+
+nav a {
+  display:block;
+  text-align: center;
+}
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+
+}
+.wrapper{
+  min-height:100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+main.page-main{
+  flex: 1 1 auto !important;
+  padding-top: 7rem;
+}
+.divider{
+    width: 70px;
+    height: 4px;
+    background: #000;
+    margin: 15px auto;
+}
+.text-uppercase{
+    text-transform: uppercase;
+}
+
+.hidden{
+  display: none;
+}
