@@ -1,50 +1,48 @@
 <template>
-  <ul class="pagination">
-     <li class="pagination-item">
+  <div class="pagination row">
+    <ul class="pagination-list">
+      <span class="pagination-button">
+        <button type="button" v-if="page != 1" @click="page--">Previous</button>
+      </span>
+
       <button
         type="button"
+        v-for="pageNumber in pages.slice(page - 1, page + 5)"
+        :key="pageNumber"
+        @click="page = pageNumber"
       >
-        Previous
+        {{ pageNumber }}
       </button>
-    </li>
 
-     <li class="pagination-item">
-      <button
-        type="button"
-      >
-        1
-      </button>
-    </li>
-
-    <!-- Visible Buttons Start -->
-
-    <!-- ... -->
-
-    <!-- Visible Buttons End -->
-
-     <li class="pagination-item">
-      <button
-        type="button"
-      >
-        2
-      </button>
-    </li>
-
-     <li class="pagination-item">
-      <button
-        type="button"
-      >
-        Next
-      </button>
-    </li>
-  </ul>
+      <span class="pagination-button">
+        <button type="button" @click="page++" v-if="page < pages.length">
+          Next
+        </button>
+      </span>
+    </ul>
+  </div>
 </template>
 
 <script>
-// Общее количество записей в ответе - count в 
-// GET http://api.football-data.org/v2/competitions/
-
 export default {
-
+  props:{
+    pages:Array,
+    page: Number
+  }
 };
 </script>
+
+<style>
+.pagination {
+  list-style-type: none;
+}
+
+.pagination-item {
+  display: inline-block;
+  padding: 3px;
+}
+.active {
+  background-color: #4aae9b;
+  color: #ffffff;
+}
+</style>

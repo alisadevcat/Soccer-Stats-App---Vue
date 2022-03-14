@@ -15,9 +15,9 @@
           <li class="ml-1 text-hover-blue display-block">
             <router-link :to="{ name: 'teams' }"> Команды</router-link>
           </li> 
-           <li class="ml-1 text-hover-blue display-block">
+           <!-- <li class="ml-1 text-hover-blue display-block">
             <router-link :to="{ name: 'team-calendar' }">Календарь Команды</router-link>
-          </li> 
+          </li>  -->
         </ul>
       </div>
     </div>
