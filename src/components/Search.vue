@@ -7,8 +7,8 @@
   >
     <input
       type="search"
-      name="s"
-      value=""
+      name="ssearch"
+      v-model="searchString"
       class="site-search__input js-search-field"
       placeholder="Search?"
     />
@@ -25,34 +25,10 @@ export default {
 data() {
     return {
       searchString: null,
-      oldSearchString: null,
-      searchedVideos: [],
-      selectedPage: 0,
-      videosPerPage: 0,
-      videoChunks: []
     };
   },
  methods: {
-    search() {
-      this.videosPerPage = 10;
-      this.selectedPage = 0;
-      if (
-        this.searchString !== "" &&
-        this.oldSearchString !== this.searchString
-      ) {
-        this.searchedVideos = this.allVideos(null, this.searchString);
-        this.videoChunks = _.chunk(this.searchedVideos, this.videosPerPage);
-      }
-      this.oldSearchString = this.searchString;
-    },
-    selectPerPageCount(event) {
-      this.selectedPage = 0;
-      this.videosPerPage = event.target.value;
-      this.videoChunks = _.chunk(this.searchedVideos, this.videosPerPage);
-    },
-    selectPage(event) {
-      this.selectedPage = event.target.text - 1;
-    },
+  
   }
 };
 </script>

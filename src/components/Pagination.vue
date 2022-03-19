@@ -4,7 +4,6 @@
       <span class="pagination-button">
         <button type="button" v-if="page != 1" @click="page--">Previous</button>
       </span>
-
       <button
         type="button"
         v-for="pageNumber in pages.slice(page - 1, page + 5)"
@@ -13,7 +12,7 @@
       >
         {{ pageNumber }}
       </button>
-
+      
       <span class="pagination-button">
         <button type="button" @click="page++" v-if="page < pages.length">
           Next
@@ -26,7 +25,7 @@
 <script>
 export default {
   props:{
-    pages:Array,
+    pages: Array,
     page: Number
   }
 };
@@ -46,3 +45,10 @@ export default {
   color: #ffffff;
 }
 </style>
+
+
+<!-- <div class="clearfix btn-group col-md-2 offset-md-5">
+ <button type="button" class="btn btn-sm btn-outline-secondary" v-if="page != 1" @click="page--"> </button>
+ <button type="button" class="btn btn-sm btn-outline-secondary" v-for="pageNumber in pages.slice(page-1, page+5)" :key ="pageNumber" @click="page = pageNumber"> {{pageNumber}} </button>
+ <button type="button" @click="page++" v-if="page < pages.length" class="btn btn-sm btn-outline-secondary"> >> </button>
+ </div> -->
