@@ -1,9 +1,11 @@
 <template>
   <div class="container">
     <h1>Календарь команды</h1>
-    {{ matches }}
+
     <p>«Приложение для просмотра спортивной статистики «SoccerStat»»</p>
     <app-breadcrumbs />
+
+    {{ matches }}
     <table class="resp-tab">
       <thead>
         <tr>
@@ -67,13 +69,16 @@ export default {
   },
   data() {
     return {
-      matches: null,
+      matches: [],
     };
   },
   mounted() {
     axios({
       method: "get",
-      url: "http://api.football-data.org/v2/competitions/2006/matches",
+      url:
+        "http://api.football-data.org/v2/competitions/" +
+        parseInt(this.$route.params.id) +
+        "/matches",
       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     })
       .then((response) => {
@@ -83,21 +88,5 @@ export default {
         console.log("error");
       });
   },
-  
-    //   axios({
-    //     method: "get",
-    //     url:
-    //       "http://api.football-data.org/v2/competitions/" +
-    //       this.$route.params.id +
-    //       "/matches",
-    //     headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
-    //   })
-    //     .then((response) => {
-    //       console.log(response);
-    //     })
-    //     .catch(() => {
-    //       console.log("error");
-    //     });
-    // },}
 };
 </script>

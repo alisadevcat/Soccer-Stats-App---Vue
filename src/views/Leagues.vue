@@ -31,6 +31,8 @@
           </div>
         </router-link>
       </div>
+
+      <p ref="not_found"></p>
     </div>
 
     <div class="pagination row">
@@ -42,7 +44,7 @@
         </span>
         <button
           type="button"
-          v-for="pageNumber in pages.slice(page - 1, page + 5)"
+          v-for="pageNumber in pages.slice(page - 1, page + 9)"
           :key="pageNumber"
           @click="page = pageNumber"
         >
@@ -76,9 +78,10 @@ export default {
     return {
       posts: [],
       page: 1,
-      perPage: 5,
+      perPage: 9,
       pages: [],
       searchString: "",
+      originalposts: [],
     };
   },
   methods: {
@@ -115,12 +118,21 @@ export default {
         (item) =>
           (item = { id: result[0][0], name: result[0][1], area: result[0][2] })
       );
-      
+
+      if (this.searchString) {
+        this.posts = result1;
+
+        if ((result.length = 0)) {
+          this.$refs.not_found.innerText = "No results found";
+        }
+      } else {
+        this.posts = this.originalposts;
+      }
+
       //this.posts.map(item => item = { id: result[0], name: result[1], area: result[2]} );
       console.log(result_array);
       console.log(result[0]);
       console.log(result1);
-      this.posts =  result1;
     },
   },
   computed: {
@@ -145,14 +157,14 @@ export default {
       url: "https://api.football-data.org/v2/competitions",
       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     }).then((response) => {
-      let competitions = response.data.competitions;
-      this.posts = competitions.map(
+      let competitions = response.data.competitions.map(
         (item) =>
           (item = { id: item.id, name: item.name, area: item.area.name })
       );
+      this.posts = competitions;
+      this.originalposts = competitions;
     });
   },
-  mounted() {},
 };
 </script>
 
