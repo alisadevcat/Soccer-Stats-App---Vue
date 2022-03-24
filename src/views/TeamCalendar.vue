@@ -72,10 +72,9 @@ export default {
     axios({
       method: "get",
       url:
-        "http://api.football-data.org/v2/competitions/" +
-        this.$route.params.id +
-        "/matches",
-       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
+        "http://api.football-data.org/v2/teams/" +
+        parseInt(this.$route.params.id),
+      headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     }).then((response) => {
       this.matches = response.data;
     }) .catch(() => {

@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h1>Команды</h1>
+
  <form
       role="search"
       class="site-search site-nav__search"

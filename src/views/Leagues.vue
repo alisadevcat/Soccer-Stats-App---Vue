@@ -11,7 +11,8 @@
       <input
         type="search"
         name="search"
-        v-model="searchString"
+        :value="searchString"
+        @input="handleInput"
         class="site-search__input js-search-field"
         placeholder="Search?"
       />
@@ -31,10 +32,11 @@
           </div>
         </router-link>
       </div>
-
-      <p ref="not_found"></p>
+     
     </div>
-
+ <div class="text-center">
+        <p ref="not_found"></p>
+      </div>
     <div class="pagination row">
       <ul class="pagination-list">
         <span class="pagination-button">
@@ -122,7 +124,7 @@ export default {
       if (this.searchString) {
         this.posts = result1;
 
-        if ((result.length = 0)) {
+        if (result1.length == 0) {
           this.$refs.not_found.innerText = "No results found";
         }
       } else {
@@ -133,6 +135,12 @@ export default {
       console.log(result_array);
       console.log(result[0]);
       console.log(result1);
+    },
+    handleInput(event) {
+      if (!event.target.value) {
+        this.posts = this.originalposts;
+      }
+      this.searchString = event.target.value;
     },
   },
   computed: {
