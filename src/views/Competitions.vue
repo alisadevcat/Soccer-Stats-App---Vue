@@ -1,9 +1,16 @@
+
+   
 <template>
   <div class="container">
     <h1>Лиги</h1>
-    <!-- <app-search /> -->
+    <app-search
+      :posts="posts"
+      :originalPosts="originalposts"
+      @handle-submit="handleSubmit"
+      @handle-input="handleInput"
+    />
 
-    <form
+    <!-- <form
       role="search"
       class="site-search site-nav__search"
       @submit.prevent="onFormSubmit"
@@ -21,7 +28,7 @@
           <img src="../../src/assets/images/search.svg" />
         </span>
       </button>
-    </form>
+    </form> -->
 
     <div class="league-cards">
       <div class="card" v-for="item in displayedPosts" :key="item.id">
@@ -32,11 +39,10 @@
           </div>
         </router-link>
       </div>
-     
     </div>
- <div class="text-center">
-        <p ref="not_found"></p>
-      </div>
+    <div class="text-center">
+      <p ref="not_found"></p>
+    </div>
     <div class="pagination row">
       <ul class="pagination-list">
         <span class="pagination-button">
@@ -70,7 +76,6 @@ const apiKey = process.env.VUE_APP_API_KEY;
 import AppSearch from "../components/Search.vue";
 import axios from "axios";
 import AppPagination from "../components/Pagination.vue";
-
 export default {
   components: {
     AppSearch,
@@ -82,7 +87,6 @@ export default {
       page: 1,
       perPage: 9,
       pages: [],
-      searchString: "",
       originalposts: [],
     };
   },
@@ -100,47 +104,14 @@ export default {
       let to = page * perPage;
       return posts.slice(from, to);
     },
-    onFormSubmit() {
-      let strLowCase = this.searchString.toLowerCase();
-      let strUpperCase = this.searchString.toUpperCase();
-      let strCamelCase = this.searchString.replace(
-        this.searchString.charAt(0),
-        this.searchString.charAt(0).toUpperCase()
-      );
-
-      let result_array = this.posts.map((item) => (item = Object.values(item)));
-      let result = result_array.filter(
-        (el) =>
-          el.includes(strLowCase) ||
-          el.includes(strUpperCase) ||
-          el.includes(strCamelCase)
-      );
-
-      let result1 = result.map(
-        (item) =>
-          (item = { id: result[0][0], name: result[0][1], area: result[0][2] })
-      );
-
-      if (this.searchString) {
-        this.posts = result1;
-
-        if (result1.length == 0) {
-          this.$refs.not_found.innerText = "No results found";
-        }
-      } else {
-        this.posts = this.originalposts;
+    handleSubmit(obj) {
+      this.posts = obj.result_posts;
+      if (obj.no_results_text) {
+        this.$refs.not_found.innerText = obj.no_results_text;
       }
-
-      //this.posts.map(item => item = { id: result[0], name: result[1], area: result[2]} );
-      console.log(result_array);
-      console.log(result[0]);
-      console.log(result1);
     },
-    handleInput(event) {
-      if (!event.target.value) {
-        this.posts = this.originalposts;
-      }
-      this.searchString = event.target.value;
+    handleInput(obj) {
+     this.posts = obj.result_posts;
     },
   },
   computed: {
@@ -149,9 +120,6 @@ export default {
     },
     displayedPosts() {
       return this.paginate(this.posts);
-    },
-    validateSearchString(searchedString) {
-      return searchedString.toLowerCase();
     },
   },
   watch: {
@@ -181,7 +149,6 @@ export default {
 .pagination {
   list-style-type: none;
 }
-
 .pagination-item {
   display: inline-block;
   padding: 3px;
