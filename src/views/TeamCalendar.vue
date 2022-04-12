@@ -2,9 +2,8 @@
   <div class="container">
     <h1>Календарь команды</h1>
     <p>«Приложение для просмотра спортивной статистики «SoccerStat»»</p>
-    <app-breadcrumbs :breadcrumb="team" :main="home_breadcrumb" />
-    <!-- {{ matches }} -->
-    {{ setTime }}
+    <app-breadcrumbs :breadcrumbs="breadCrumbs" />
+    {{ teams }}
     <table class="resp-tab">
       <thead>
         <tr>
@@ -13,18 +12,31 @@
           <th>Статус</th>
           <th>Названия команд участвующих в матче</th>
           <th>
-            Счёт. Счёт в основное время, счёт в дополнительное время, итог
-            пенальти.
+            <tr>
+              <td>Счёт.</td>
+              <td>Счёт в основное время</td>
+              <td>счёт в дополнительное время</td>
+              <td>итог пенальти.</td>
+            </tr>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="match in matches" :key="match.id">
-          <td><span>data</span>{{ setDate(match.utcDate)}}</td>
-          <td><span>time</span>{{ setTime(match.utcDate)}}</td>
+          <td><span>data</span>{{ setDate(match.utcDate) }}</td>
+          <td><span>time</span>{{ setTime(match.utcDate) }}</td>
           <td><span>status</span>{{ match.status }}</td>
           <td>{{ match.homeTeam.name }} - {{ match.awayTeam.name }}</td>
-          <td><span>score</span>Контент 5</td>
+          <td>
+            <tr>
+              <td>{{ match.score.fullTime.homeTeam }}</td>
+              <td>{{ match.score.fullTime.awayTeam }}</td>
+              <td>{{ match.score.extraTime.homeTeam }}</td>
+              <td>{{ match.score.extraTime.awayTeam }}</td>
+              <td>{{ match.score.penalties.homeTeam }}</td>
+              <td>{{ match.score.penalties.awayTeam }}</td>
+            </tr>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -47,21 +59,26 @@ export default {
     return {
       team: null,
       matches: [],
-      home_breadcrumb: "Команды",
     };
   },
   methods: {
-    setTime(dt){
+    setTime(dt) {
       let d = new Date(dt);
-    let minutes = d.getUTCMinutes() == '0' ? d.getUTCMinutes() + '0' : d.getUTCMinutes();
+      let minutes =
+        d.getUTCMinutes() == "0" ? d.getUTCMinutes() + "0" : d.getUTCMinutes();
       return d.getUTCHours() + " : " + minutes;
     },
-    setDate(dt){
+    setDate(dt) {
       let d = new Date(dt);
-      let day = d.getDay() == '0' ? '' : d.getDay();
-    let date = d.getDay() + '-' + d.getUTCMonth() + '-' + d.getUTCFullYear();
+      let day = d.getDay() == "0" ? "" : d.getDay();
+      let date = d.getDay() + "-" + d.getUTCMonth() + "-" + d.getUTCFullYear();
       return date;
+    },
   },
+  computed: {
+    breadCrumbs() {
+      return { teams: "Команды", name: this.team };
+    },
   },
   created() {
     axios({
