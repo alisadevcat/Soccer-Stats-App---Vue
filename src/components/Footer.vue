@@ -9,7 +9,7 @@
       </div>
        <div class="page-footer__copyright">
       <p class="mb-2">
-        <a href="https://www.google.com" title="Privacy" target="_blank">
+        <a href="#" title="Privacy" target="_blank">
            SoccerSTATS.com 
         </a>
       </p>

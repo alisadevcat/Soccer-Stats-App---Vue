@@ -10,9 +10,9 @@ import CompetitionCalendar from "@/views/CompetitionCalendar";
 const routes = [
   { name: "home", path: "/", component: Home },
   { name: "teams", path: "/teams", component: Teams },
-  { name: "leagues", path: "/league", component: Competitions },
+  { name: "competitions", path: "/competitions", component: Competitions },
   { name: "team-calendar", path: "/team-calendar/:id", component: TeamCalendar, props: true },
-  { name: "league-calendar", path: "/league-calendar/:id", component: CompetitionCalendar, props: true },
+  { name: "competition-calendar", path: "/competition-calendar/:id", component: CompetitionCalendar, props: true },
   { path: "/:any(.*)", component: E404 },
 ];
 

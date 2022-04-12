@@ -10,7 +10,7 @@
         </div>
         <ul class="site-nav__list row">
           <li class="ml-1 text-hover-blue display-block">
-            <router-link :to="{ name: 'leagues' }"> Лиги</router-link>
+            <router-link :to="{ name: 'competitions' }"> Лиги</router-link>
           </li>
           <li class="ml-1 text-hover-blue display-block">
             <router-link :to="{ name: 'teams' }"> Команды</router-link>
