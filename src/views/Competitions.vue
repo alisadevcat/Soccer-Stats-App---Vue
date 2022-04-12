@@ -71,9 +71,9 @@ export default {
         this.$refs.not_found.innerText = obj.no_results_text;
       }
     },
-    // handleInput(obj) {
-    //   this.posts = obj.result_posts;
-    // },
+    handleInput(obj) {
+      this.posts = obj.result_posts;
+    },
     onPageClick(event) {
       this.currentPage = event;
     },
