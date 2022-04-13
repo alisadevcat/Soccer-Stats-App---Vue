@@ -7,6 +7,7 @@
       @handle-submit="handleSubmit"
       @handle-input="handleInput"
     />
+    
     <div class="league-cards">
       <div class="card" v-for="item in displayedPosts" :key="item.id">
         <router-link
