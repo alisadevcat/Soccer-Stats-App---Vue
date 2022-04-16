@@ -1,51 +1,57 @@
 <template>
   <div class="container">
     <h1>Календарь команды</h1>
-    <p>«Приложение для просмотра спортивной статистики «SoccerStat»»</p>
     <app-breadcrumbs :breadcrumbs="breadCrumbs" />
-    {{ teams }}
-    <table class="resp-tab">
-      <thead>
-        <tr>
-          <th>Дата</th>
-          <th>Время</th>
-          <th>Статус</th>
-          <th>Названия команд участвующих в матче</th>
-          <th>
-            <tr>
-              <td>Счёт.</td>
-              <td>Счёт в основное время</td>
-              <td>счёт в дополнительное время</td>
-              <td>итог пенальти.</td>
-            </tr>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="match in matches" :key="match.id">
-          <td><span>data</span>{{ setDate(match.utcDate) }}</td>
-          <td><span>time</span>{{ setTime(match.utcDate) }}</td>
-          <td><span>status</span>{{ match.status }}</td>
-          <td>{{ match.homeTeam.name }} - {{ match.awayTeam.name }}</td>
-          <td>
-            <tr>
-              <td>{{ match.score.fullTime.homeTeam }}</td>
-              <td>{{ match.score.fullTime.awayTeam }}</td>
-              <td>{{ match.score.extraTime.homeTeam }}</td>
-              <td>{{ match.score.extraTime.awayTeam }}</td>
-              <td>{{ match.score.penalties.homeTeam }}</td>
-              <td>{{ match.score.penalties.awayTeam }}</td>
-            </tr>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<app-date-search/>
+    <div class="oveflow-auto rounded-lg shadow">
+      <table class="w-full pt-2">
+        <thead class="bg-gray-200 border-b-2 border-gray-500">
+          <tr>
+            <th class="py-2">Дата</th>
+            <th class="py-2">Время</th>
+            <th class="py-2">Статус</th>
+            <th class="py-2">Команды участники</th>
+            <th class="py-2">Счёт в основное время</th>
+            <th class="py-2">Cчёт в дополнительное время</th>
+            <th class="py-2">Пенальти</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr v-for="match in matches" :key="match.id">
+            <td class="p-3 text-sm whitespace-nowrap">
+              {{ setDate(match.utcDate) }}
+            </td>
+            <td class="p-3 text-sm whitespace-nowrap">
+              {{ setTime(match.utcDate) }}
+            </td>
+            <td class="p-3 text-sm whitespace-nowrap">{{ match.status }}</td>
+            <td class="p-3 text-sm whitespace-nowrap">
+              {{ match.homeTeam.name }} - {{ match.awayTeam.name }}
+            </td>
+
+            <td class="p-3 text-sm whitespace-nowrap">
+              {{ match.score.fullTime.homeTeam }} :
+              {{ match.score.fullTime.awayTeam }}
+            </td>
+            <td class="p-3 text-sm whitespace-nowrap">
+              {{ match.score.extraTime.homeTeam }} :
+              {{ match.score.extraTime.awayTeam }}
+            </td>
+            <td class="p-3 text-sm whitespace-nowrap">
+              {{ match.score.penalties.homeTeam }} :
+              {{ match.score.penalties.awayTeam }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script>
 import AppSearch from "../components/Search.vue";
 import AppBreadcrumbs from "../components/Breadcrumbs.vue";
+import AppDateSearch from "../components/DateSearch.vue";
 import axios from "axios";
 //Вызов при переходе на страницу лиги - GET
 //где {id} - competitions[].id
@@ -54,6 +60,7 @@ export default {
   components: {
     AppSearch,
     AppBreadcrumbs,
+    AppDateSearch
   },
   data() {
     return {
