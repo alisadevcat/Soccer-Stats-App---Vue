@@ -1,62 +1,57 @@
 <template>
   <div class="container">
-    <h1>Календарь команды</h1>
-
-    <p>«Приложение для просмотра спортивной статистики «SoccerStat»»</p>
-    <app-breadcrumbs />
-
-    {{ matches }}
-    <table class="resp-tab">
-      <thead>
+    <h1>Календарь лиги</h1>
+  <app-breadcrumbs :breadcrumbs="breadCrumbs" />
+    <app-date-search />
+    <table class="w-full pt-2">
+      <thead class="bg-gray-200 border-b-2 border-gray-500">
         <tr>
-          <th>Дата</th>
-          <th>Время</th>
-          <th>Статус</th>
-          <th>Названия команд участвующих в матче</th>
-          <th>
-            Счёт. Счёт в основное время, счёт в дополнительное время, итог
-            пенальти.
-          </th>
+          <th class="py-2">Дата</th>
+          <th class="py-2">Время</th>
+          <th class="py-2">Статус</th>
+          <th class="py-2">Команды участники</th>
+          <th class="py-2">Счёт в основное время</th>
+          <th class="py-2">Cчёт в дополнительное время</th>
+          <th class="py-2">Пенальти</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td><span>Заголовок 1</span>Контент 1</td>
-          <td><span>Заголовок 2</span>Контент 1</td>
-          <td><span>Заголовок 3</span>Контент 1</td>
-          <td><span>Заголовок 4</span>Контент 1</td>
-          <td><span>Заголовок 4</span>Контент 1</td>
-        </tr>
-        <!-- Еще строки -->
-        <tr>
-          <td><span>Заголовок 1</span>Контент 5</td>
-          <td><span>Заголовок 2</span>Контент 5</td>
-          <td><span>Заголовок 3</span>Контент 5</td>
-          <td><span>Заголовок 4</span>Контент 5</td>
-          <td><span>Заголовок 4</span>Контент 1</td>
-        </tr>
-        <tr>
-          <td><span>Заголовок 1</span>Контент 5</td>
-          <td><span>Заголовок 2</span>Контент 5</td>
-          <td><span>Заголовок 3</span>Контент 5</td>
-          <td><span>Заголовок 4</span>Контент 5</td>
-          <td><span>Заголовок 4</span>Контент 1</td>
-        </tr>
-        <tr>
-          <td><span>Заголовок 1</span>Контент 5</td>
-          <td><span>Заголовок 2</span>Контент 5</td>
-          <td><span>Заголовок 3</span>Контент 5</td>
-          <td><span>Заголовок 4</span>Контент 5</td>
-          <td><span>Заголовок 4</span>Контент 1</td>
+      <tbody class="divide-y divide-gray-100">
+        <tr v-for="competition in competitions" :key="competition.id">
+          <td class="p-3 text-sm whitespace-nowrap">
+            {{}}
+          </td>
+          <td class="p-3 text-sm whitespace-nowrap">
+            {{}}
+          </td>
+          <td class="p-3 text-sm whitespace-nowrap">{{}}</td>
+          <td class="p-3 text-sm whitespace-nowrap">{{}} - {{}}</td>
+
+          <td class="p-3 text-sm whitespace-nowrap">
+            {{}} :
+            {{}}
+          </td>
+          <td class="p-3 text-sm whitespace-nowrap">
+            {{}} :
+            {{}}
+          </td>
+          <td class="p-3 text-sm whitespace-nowrap">
+            {{}} :
+            {{}}
+          </td>
         </tr>
       </tbody>
     </table>
+
+    <div class="mt-3 font-bold">
+      <h3>{{ message }}</h3>
+    </div>
   </div>
 </template>
 
 <script>
 import AppSearch from "../components/Search.vue";
 import AppBreadcrumbs from "../components/Breadcrumbs.vue";
+import AppDateSearch from "../components/DateSearch.vue";
 import axios from "axios";
 const apiKey = process.env.VUE_APP_API_KEY;
 //Вызов при переходе на страницу лиги - GET
@@ -66,11 +61,19 @@ export default {
   components: {
     AppSearch,
     AppBreadcrumbs,
+    AppDateSearch,
   },
   data() {
     return {
-      matches: [],
+      competitions: [],
+      message: "",
+      competition: null
     };
+  },
+  computed: {
+    breadCrumbs() {
+      return [ "Лиги", this.$route.params.competition_name ] ;
+    },
   },
   mounted() {
     axios({
@@ -82,10 +85,13 @@ export default {
       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     })
       .then((response) => {
-        this.matches = response;
+        this.competitions = response;
       })
-      .catch(() => {
+      .catch((err) => {
         console.log("error");
+        // this.message = "The resource you are looking for is restricted. Please pass a valid API token and check your subscription for permission.";
+        this.message = err;
+        throw err;
       });
   },
 };

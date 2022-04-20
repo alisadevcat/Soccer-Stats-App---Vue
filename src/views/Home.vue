@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <h2 class="my-2">
-      «Приложение для просмотра спортивной статистики «SoccerStat»»
+    <h2 class="my-3">
+      «Приложение для просмотра спортивной статистики «SoccerSTATs»»
     </h2>
 
     <img

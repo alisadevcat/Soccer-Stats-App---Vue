@@ -3,11 +3,12 @@
     <ol
       class="inline-flex items-center space-x-1 md:space-x-3"
       v-for="breadcrumb in breadcrumbs"
-      :key="breadcrumb.name"
+      :key="breadcrumb"
     >
       <li>
         <a href="#">{{ breadcrumb }}</a>
       </li>
+      
       <svg
         class="w-6 h-6 text-blue-400"
         fill="currentColor"

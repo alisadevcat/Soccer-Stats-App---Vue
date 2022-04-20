@@ -11,7 +11,7 @@
 
     <div class="team-cards">
       <div class="card" v-for="team in displayedPosts" :key="team.id">
-        <router-link :to="{ name: 'team-calendar', params: { id: team.id } }">
+        <router-link :to="{ name: 'team-calendar', params: { id: team.id , team_name: team.name } }">
           <div class="card-content">
             <p class="card-title">{{ team.name }}</p>
             <figure class="card-image">

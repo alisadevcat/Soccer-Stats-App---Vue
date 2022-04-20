@@ -2,7 +2,8 @@
   <div class="container">
     <h1>Календарь команды</h1>
     <app-breadcrumbs :breadcrumbs="breadCrumbs" />
-<app-date-search/>
+
+    <app-date-search />
     <div class="oveflow-auto rounded-lg shadow">
       <table class="w-full pt-2">
         <thead class="bg-gray-200 border-b-2 border-gray-500">
@@ -60,11 +61,10 @@ export default {
   components: {
     AppSearch,
     AppBreadcrumbs,
-    AppDateSearch
+    AppDateSearch,
   },
   data() {
     return {
-      team: null,
       matches: [],
     };
   },
@@ -84,7 +84,7 @@ export default {
   },
   computed: {
     breadCrumbs() {
-      return { teams: "Команды", name: this.team };
+      return [ "Команды", this.$route.params.team_name ];
     },
   },
   created() {
@@ -98,19 +98,6 @@ export default {
     })
       .then((response) => {
         this.matches = response.data.matches;
-      })
-      .catch(() => {
-        console.log("error");
-      });
-    axios({
-      method: "get",
-      url:
-        "http://api.football-data.org/v2/teams/" +
-        parseInt(this.$route.params.id),
-      headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
-    })
-      .then((response) => {
-        this.team = response.data.name;
       })
       .catch(() => {
         console.log("error");

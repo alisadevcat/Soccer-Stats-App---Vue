@@ -11,7 +11,7 @@
     <div class="league-cards">
       <div class="card" v-for="item in displayedPosts" :key="item.id">
         <router-link
-          :to="{ name: 'competition-calendar', params: { id: item.id } }"
+          :to="{ name: 'competition-calendar', params: { id: item.id, competition_name: item.name } }"
         >
           <div class="card-content">
             <p class="card-title">League: {{ item.name }}</p>
