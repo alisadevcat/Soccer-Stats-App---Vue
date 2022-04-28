@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mx-auto max-w-screen-xl px-3 box-border">
     <h1>Команды</h1>
 
     <app-search
@@ -9,30 +9,29 @@
       @handle-input="handleInput"
     />
 
-    <div class="team-cards">
-      <div class="card" v-for="team in displayedPosts" :key="team.id">
+    <div class="grid grid-cols-13 gap-2 place-content-center">
+      <div class="border rounded-sm border-black border-solid py-12 " v-for="team in displayedPosts" :key="team.id">
         <router-link :to="{ name: 'team-calendar', params: { id: team.id , team_name: team.name } }">
-          <div class="card-content">
-            <p class="card-title">{{ team.name }}</p>
-            <figure class="card-image">
-              <img
+          <div>
+            <p class="pb-4">{{ team.name }}</p>
+              <img v-if="team.crestUrl"
                 :src="team.crestUrl"
-                alt="{{team.name}}"
+                :alt="team.name"
                 width="96"
                 height="96"
-              />
-            </figure>
+                class="block mx-auto">
           </div>
         </router-link>
       </div>
     </div>
-
+<div class="py-4">
     <VueTailwindPagination
       :current="currentPage"
       :total="total"
       :per-page="perPage"
       @page-changed="onPageClick($event)"
     />
+  </div>
   </div>
 </template>
 
@@ -53,7 +52,7 @@ export default {
   data() {
     return {
       teams: [],
-      perPage: 8,
+      perPage: 10,
       pages: [],
       searchString: "",
       currentPage: 1,

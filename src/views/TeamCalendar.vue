@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mx-auto max-w-screen-xl px-3 box-border">
     <h1>Календарь команды</h1>
     <app-breadcrumbs :breadcrumbs="breadCrumbs" />
 
@@ -66,6 +66,7 @@ export default {
   data() {
     return {
       matches: [],
+      team: null
     };
   },
   methods: {
@@ -84,7 +85,7 @@ export default {
   },
   computed: {
     breadCrumbs() {
-      return [ "Команды", this.$route.params.team_name ];
+      return [ "Команды", this.team ];
     },
   },
   created() {
@@ -102,6 +103,8 @@ export default {
       .catch(() => {
         console.log("error");
       });
-  },
+      
+      this.team = this.$route.params.team_name;
+  }
 };
 </script>

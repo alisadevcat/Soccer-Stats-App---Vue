@@ -1,7 +1,7 @@
 
    
 <template>
-  <div class="container">
+  <div class="container mx-auto max-w-screen-xl px-3 box-border">
     <h1>Лиги</h1>
     <app-search
       :posts="posts"

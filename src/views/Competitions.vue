@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mx-auto max-w-screen-xl px-3 box-border">
     <h1>Лиги</h1>
     <app-search
       :posts="posts"
@@ -7,15 +7,22 @@
       @handle-submit="handleSubmit"
       @handle-input="handleInput"
     />
-    
-    <div class="league-cards">
-      <div class="card" v-for="item in displayedPosts" :key="item.id">
+
+    <div class="grid grid-cols-14 gap-4 place-content-center">
+      <div
+        class="border rounded-sm border-black border-solid py-12"
+        v-for="item in displayedPosts"
+        :key="item.id"
+      >
         <router-link
-          :to="{ name: 'competition-calendar', params: { id: item.id, competition_name: item.name } }"
+          :to="{
+            name: 'competition-calendar',
+            params: { id: item.id, competition_name: item.name },
+          }"
         >
-          <div class="card-content">
-            <p class="card-title">League: {{ item.name }}</p>
-            <p class="card-subtitle">Country: {{ item.area }}</p>
+          <div>
+            <p v-if="item.name">League: {{ item.name }}</p>
+            <p v-if="item.area">Country: {{ item.area }}</p>
           </div>
         </router-link>
       </div>
@@ -23,13 +30,14 @@
     <div class="text-center">
       <p ref="not_found"></p>
     </div>
-
-    <VueTailwindPagination
-      :current="currentPage"
-      :total="total"
-      :per-page="perPage"
-      @page-changed="onPageClick($event)"
-    />
+    <div class="py-4">
+      <VueTailwindPagination
+        :current="currentPage"
+        :total="total"
+        :per-page="perPage"
+        @page-changed="onPageClick($event)"
+      />
+    </div>
   </div>
 </template>
 
@@ -54,7 +62,7 @@ export default {
       perPage: 9,
       pages: [],
       originalposts: [],
-      total: null
+      total: null,
     };
   },
   methods: {

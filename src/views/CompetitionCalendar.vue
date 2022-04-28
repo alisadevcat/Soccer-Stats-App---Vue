@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+   <div class="container mx-auto max-w-screen-xl px-3 box-border">
     <h1>Календарь лиги</h1>
   <app-breadcrumbs :breadcrumbs="breadCrumbs" />
     <app-date-search />
@@ -72,7 +72,7 @@ export default {
   },
   computed: {
     breadCrumbs() {
-      return [ "Лиги", this.$route.params.competition_name ] ;
+      return [ "Лиги", this.competition ] ;
     },
   },
   mounted() {
@@ -93,6 +93,7 @@ export default {
         this.message = err;
         throw err;
       });
-  },
+       this.competition = this.$route.params.competition_name;
+  }
 };
 </script>
