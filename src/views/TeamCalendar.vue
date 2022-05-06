@@ -63,10 +63,13 @@ export default {
     AppBreadcrumbs,
     AppDateSearch,
   },
+  props: ["id", "team_name"],
   data() {
     return {
       matches: [],
-      team: null
+      team: null,
+      breadCrumbs: [],
+      team_name: " ",
     };
   },
   methods: {
@@ -81,11 +84,6 @@ export default {
       let day = d.getDay() == "0" ? "" : d.getDay();
       let date = d.getDay() + "-" + d.getUTCMonth() + "-" + d.getUTCFullYear();
       return date;
-    },
-  },
-  computed: {
-    breadCrumbs() {
-      return [ "Команды", this.team ];
     },
   },
   created() {
@@ -103,8 +101,21 @@ export default {
       .catch(() => {
         console.log("error");
       });
-      
-      this.team = this.$route.params.team_name;
-  }
+
+    axios({
+      method: "get",
+      url:
+        "http://api.football-data.org/v2/teams/" +
+        parseInt(this.$route.params.id),
+      headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
+    })
+      .then((response) => {
+        this.team_name = response.data.name;
+        this.breadCrumbs = ["Команды", this.team_name];
+      })
+      .catch(() => {
+        console.log(error);
+      });
+  },
 };
 </script>

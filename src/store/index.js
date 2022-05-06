@@ -1,15 +1,21 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
-// import menu_types from './menu_types';
-// import files from './files';
-// import concepts from './concepts';
-
-
+// Create a new store instance.
 const store = createStore({
-	modules: {
-	
-	},
-	strict: process.env.NODE_ENV !== 'production'
+  state() {
+    return {
+      team: "",
+    };
+  },
+  getters: {
+    setTeam: (state) => state.team,
+  },
+
+  mutations: {
+    changeName(state, payload) {
+      state.team = payload;
+    },
+  },
 });
 
 export default store;

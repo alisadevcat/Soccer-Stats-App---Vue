@@ -11,7 +11,8 @@
 
     <div class="grid grid-cols-13 gap-2 place-content-center">
       <div class="border rounded-sm border-black border-solid py-12 " v-for="team in displayedPosts" :key="team.id">
-        <router-link :to="{ name: 'team-calendar', params: { id: team.id , team_name: team.name } }">
+  
+        <router-link :to="{ name: 'team-calendar', params: { id: team.id , team_name: team.name } }" :key="team.id">
           <div>
             <p class="pb-4">{{ team.name }}</p>
               <img v-if="team.crestUrl"
@@ -88,7 +89,7 @@ export default {
     },
        displayedPosts() {
       return this.paginate(this.teams);
-    },
+    }
   },
   created() {
     axios({
