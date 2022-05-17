@@ -9,7 +9,6 @@
         <a href="#">{{ breadcrumb }}</a>
       </li>
     </ol>
-
   </nav>
 </template>
 
@@ -18,29 +17,23 @@ export default {
   props: {
     breadcrumbs: Array,
   },
-  computed: {
-    // breadCrumbs() {
-    //   if (typeof this.$route.meta.breadCrumb === "function") {
-    //     return this.$route.meta.breadCrumb.call(this, this.$route);
-    //   }
-    //   return this.$route.meta.breadCrumb;
-    // },
-  },
 };
 </script>
 
 <style scoped>
 
+   /* li:not(:last-child) a:after {
+            content: ' || '!important;
+            color:green;
+            font-weight:bold;
+        }
 
-/* ol li a::before {
-  content: "→";
-} */
+        li {
+            display: block;
+        } */
 
-#breadcrumb_nav li:not(:first-child)::before {
-  content: "→";
+#breadcrumb_nav li a::after {
+  content: " / ";
 }
 
-/* #breadcrumb_nav li:first-child::before {
-  content: "";
-} */
 </style>

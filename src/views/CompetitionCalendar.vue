@@ -67,7 +67,8 @@ export default {
     return {
       competitions: [],
       message: "",
-      competition: null
+      competition: null,
+      breadCrumbs: [],
     };
   },
   computed: {
@@ -93,7 +94,25 @@ export default {
         this.message = err;
         throw err;
       });
+
+      axios({
+      method: "get",
+      url:
+        "http://api.football-data.org/v2/competitions/" +
+        parseInt(this.$route.params.id),
+      headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
+    })
+      .then((response) => {
+        this.breadCrumbs = [ "Лиги", this.response.data.name];
+      })
+      .catch(() => {
+        console.log(error);
+      });
+
        this.competition = this.$route.params.competition_name;
-  }
+  },
 };
+
+
+
 </script>
