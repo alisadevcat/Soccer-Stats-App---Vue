@@ -2,8 +2,8 @@
   <div class="container mx-auto max-w-screen-xl px-3 box-border">
     <h1>Календарь команды</h1>
     <app-breadcrumbs :breadcrumbs="breadCrumbs" />
+    <app-date-filter @handle-dates="handleDateInputs"/>
 
-    <app-date-search />
     <div class="oveflow-auto rounded-lg shadow">
       <table class="w-full pt-2">
         <thead class="bg-gray-200 border-b-2 border-gray-500">
@@ -20,7 +20,8 @@
         <tbody class="divide-y divide-gray-100">
           <tr v-for="match in matches" :key="match.id">
             <td class="p-3 text-sm whitespace-nowrap">
-              {{ setDate(match.utcDate) }}
+              <!-- {{ setDate(match.utcDate) }}  -->
+              {{ match.utcDate }}
             </td>
             <td class="p-3 text-sm whitespace-nowrap">
               {{ setTime(match.utcDate) }}
@@ -52,16 +53,14 @@
 <script>
 import AppSearch from "../components/Search.vue";
 import AppBreadcrumbs from "../components/Breadcrumbs.vue";
-import AppDateSearch from "../components/DateSearch.vue";
+import AppDateFilter from "../components/DateFilter.vue";
 import axios from "axios";
-//Вызов при переходе на страницу лиги - GET
-//где {id} - competitions[].id
 
 export default {
   components: {
     AppSearch,
     AppBreadcrumbs,
-    AppDateSearch,
+    AppDateFilter,
   },
   props: ["id", "team_name"],
   data() {
@@ -84,6 +83,12 @@ export default {
       let day = d.getDay() == "0" ? "" : d.getDay();
       let date = d.getDay() + "-" + d.getUTCMonth() + "-" + d.getUTCFullYear();
       return date;
+    },
+    handleDateInputs(from, to) {
+      console.log('ggg');
+      // this.matches.filter((item) => {
+      //   item.utcDate >= from && item.utcDate <= to;
+      // });
     },
   },
   created() {

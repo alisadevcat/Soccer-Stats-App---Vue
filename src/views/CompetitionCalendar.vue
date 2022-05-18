@@ -1,8 +1,8 @@
 <template>
-   <div class="container mx-auto max-w-screen-xl px-3 box-border">
+  <div class="container mx-auto max-w-screen-xl px-3 box-border">
     <h1>Календарь лиги</h1>
-  <app-breadcrumbs :breadcrumbs="breadCrumbs" />
-    <app-date-search />
+    <app-breadcrumbs :breadcrumbs="breadCrumbs" />
+    <app-date-filter />
     <table class="w-full pt-2">
       <thead class="bg-gray-200 border-b-2 border-gray-500">
         <tr>
@@ -17,12 +17,8 @@
       </thead>
       <tbody class="divide-y divide-gray-100">
         <tr v-for="competition in competitions" :key="competition.id">
-          <td class="p-3 text-sm whitespace-nowrap">
-            {{}}
-          </td>
-          <td class="p-3 text-sm whitespace-nowrap">
-            {{}}
-          </td>
+          <td class="p-3 text-sm whitespace-nowrap">{{}}</td>
+          <td class="p-3 text-sm whitespace-nowrap">{{}}</td>
           <td class="p-3 text-sm whitespace-nowrap">{{}}</td>
           <td class="p-3 text-sm whitespace-nowrap">{{}} - {{}}</td>
 
@@ -51,17 +47,15 @@
 <script>
 import AppSearch from "../components/Search.vue";
 import AppBreadcrumbs from "../components/Breadcrumbs.vue";
-import AppDateSearch from "../components/DateSearch.vue";
+import AppDateFilter from "../components/DateFilter.vue";
 import axios from "axios";
 const apiKey = process.env.VUE_APP_API_KEY;
-//Вызов при переходе на страницу лиги - GET
-//где {id} - competitions[].id
 
 export default {
   components: {
     AppSearch,
     AppBreadcrumbs,
-    AppDateSearch,
+    AppDateFilter,
   },
   data() {
     return {
@@ -73,7 +67,7 @@ export default {
   },
   computed: {
     breadCrumbs() {
-      return [ "Лиги", this.competition ] ;
+      return ["Лиги", this.competition];
     },
   },
   mounted() {
@@ -95,7 +89,7 @@ export default {
         throw err;
       });
 
-      axios({
+    axios({
       method: "get",
       url:
         "http://api.football-data.org/v2/competitions/" +
@@ -103,16 +97,13 @@ export default {
       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     })
       .then((response) => {
-        this.breadCrumbs = [ "Лиги", this.response.data.name];
+        this.breadCrumbs = ["Лиги", this.response.data.name];
       })
       .catch(() => {
         console.log(error);
       });
 
-       this.competition = this.$route.params.competition_name;
+    this.competition = this.$route.params.competition_name;
   },
 };
-
-
-
 </script>
