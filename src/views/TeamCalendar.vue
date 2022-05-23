@@ -23,6 +23,7 @@
         <tbody class="divide-y divide-gray-100">
           <tr v-for="match in displayedPosts" :key="match.id">
             <td class="p-3 text-sm whitespace-nowrap">
+              {{match.utcDate}}<br>
               {{ setDate(match.utcDate) }}
             </td>
             <td class="p-3 text-sm whitespace-nowrap">
@@ -105,14 +106,16 @@ export default {
       return d.getUTCHours() + " : " + minutes;
     },
     setDate(dt) {
+      //console.log(dt);
       let d = new Date(dt);
-      let date = `${d.getDay()}-${d.getUTCMonth()}-${d.getUTCFullYear()}`;
+      let month = d.getMonth() + 1;
+      let date = `${d.getDate()}-${month}-${d.getFullYear()}`;
       return date;
     },
     handleDateInputs(from, to) {
       let filteredMatches = this.matches.filter(function (item) {
         let dateUtc = new Date(item.utcDate);
-        console.log(dateUtc);
+        //console.log(dateUtc);
 
         if (from && to) {
           // console.log(dateUtc.getTime() >= from.getTime() && dateUtc.getTime() <= to.getTime() + '' + 'from-to');
@@ -121,7 +124,7 @@ export default {
             dateUtc.getTime() <= to.getTime()
           );
         } else if (from && !to) {
-          // console.log(dateUtc.getTime() >= from.getTime());
+        console.log(dateUtc.getTime() >= from.getTime());
 
           return dateUtc.getTime() >= from.getTime();
         } else if (to && !from) {
@@ -133,7 +136,7 @@ export default {
         return true;
       });
 
-      // this.matches = filteredMatches;
+      this.matches = filteredMatches;
       console.log(filteredMatches);
       return filteredMatches;
     },

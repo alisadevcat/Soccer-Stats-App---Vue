@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto max-w-screen-xl px-3 box-border">
     <h2 class="my-3">
-      «Приложение для просмотра спортивной статистики «SoccerSTATs»»
+      Приложение для просмотра спортивной статистики «SoccerSTATs»
     </h2>
 
     <img
