@@ -3,7 +3,7 @@
     <h1>Лиги</h1>
     <app-search
       :posts="posts"
-      :originalPosts="originalposts"
+      :originalPosts="originalPosts"
       @handle-submit="handleSubmit"
       @handle-input="handleInput"
     />
@@ -61,7 +61,7 @@ export default {
       currentPage: 1,
       perPage: 9,
       pages: [],
-      originalposts: [],
+      originalPosts: [],
       total: null,
     };
   },
@@ -76,6 +76,7 @@ export default {
     },
     handleSubmit(obj) {
       this.posts = obj.result_posts;
+      this.total = this.posts.length;
       if (obj.no_results_text) {
         this.$refs.not_found.innerText = obj.no_results_text;
       }
@@ -106,7 +107,7 @@ export default {
           (item = { id: item.id, name: item.name, area: item.area.name })
       );
       this.posts = competitions;
-      this.originalposts = competitions;
+      this.originalPosts = competitions;
       this.total = competitions.length;
     });
   },

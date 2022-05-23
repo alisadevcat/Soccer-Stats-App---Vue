@@ -85,7 +85,7 @@ export default {
       team_name: " ",
       currentPage: 1,
       perPage: 10,
-      originalposts: [],
+      originalPosts: [],
       total: null,
     };
   },
@@ -157,13 +157,13 @@ export default {
     })
       .then((response) => {
         this.matches = response.data.matches;
-        this.originalposts = this.matches;
+        this.originalPosts = this.matches;
         this.total = this.matches.length;
       })
       .catch(() => {
         console.log("error");
       });
-      
+
     axios({
       method: "get",
       url:

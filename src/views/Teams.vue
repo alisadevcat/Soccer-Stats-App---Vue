@@ -4,7 +4,7 @@
 
     <app-search
       :posts="teams"
-      :originalPosts="originalteams"
+      :originalPosts="originalTeams"
       @handle-submit="handleSubmit"
       @handle-input="handleInput"
     />
@@ -98,7 +98,7 @@ export default {
       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     }).then((response) => {
       this.teams = response.data.teams;
-      this.originalteams = response.data.teams;
+      this.originalTeams = response.data.teams;
       this.total = response.data.teams.length;
     });
   },

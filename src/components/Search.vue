@@ -151,7 +151,6 @@ export default {
         const obj = {
           result_posts: this.originalPosts,
         };
-
         this.$emit("handleInput", obj);
       }
       this.searchString = event.target.value;
