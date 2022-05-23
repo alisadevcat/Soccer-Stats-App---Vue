@@ -83,6 +83,8 @@ export default {
     },
     handleInput(obj) {
       this.posts = obj.result_posts;
+      this.total = obj.result_posts.length;
+          console.log(obj.result_posts.length);
     },
     onPageClick(event) {
       this.currentPage = event;

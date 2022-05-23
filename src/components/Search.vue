@@ -151,6 +151,7 @@ export default {
         const obj = {
           result_posts: this.originalPosts,
         };
+        console.log('clear input')
         this.$emit("handleInput", obj);
       }
       this.searchString = event.target.value;
