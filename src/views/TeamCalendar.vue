@@ -1,8 +1,11 @@
 <template>
   <div class="container mx-auto max-w-screen-xl px-3 box-border">
     <h1>Календарь команды</h1>
+
+      {{ total }}
+     
     <app-breadcrumbs :breadcrumbs="breadCrumbs" />
-    <app-date-filter @handle-dates="handleDateInputs"/>
+    <app-date-filter @handle-inputs="handleDateInputs" />
 
     <div class="oveflow-auto rounded-lg shadow">
       <table class="w-full pt-2">
@@ -18,10 +21,9 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
-          <tr v-for="match in matches" :key="match.id">
+          <tr v-for="match in displayedPosts" :key="match.id">
             <td class="p-3 text-sm whitespace-nowrap">
-              <!-- {{ setDate(match.utcDate) }}  -->
-              {{ match.utcDate }}
+              {{ setDate(match.utcDate) }}
             </td>
             <td class="p-3 text-sm whitespace-nowrap">
               {{ setTime(match.utcDate) }}
@@ -47,6 +49,15 @@
         </tbody>
       </table>
     </div>
+
+    <div class="py-4">
+      <VueTailwindPagination
+        :current="currentPage"
+        :total="total"
+        :per-page="perPage"
+        @page-changed="onPageClick($event)"
+      />
+    </div>
   </div>
 </template>
 
@@ -54,6 +65,8 @@
 import AppSearch from "../components/Search.vue";
 import AppBreadcrumbs from "../components/Breadcrumbs.vue";
 import AppDateFilter from "../components/DateFilter.vue";
+import "@ocrv/vue-tailwind-pagination/dist/style.css";
+import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
 import axios from "axios";
 
 export default {
@@ -61,6 +74,7 @@ export default {
     AppSearch,
     AppBreadcrumbs,
     AppDateFilter,
+    VueTailwindPagination,
   },
   props: ["id", "team_name"],
   data() {
@@ -69,9 +83,21 @@ export default {
       team: null,
       breadCrumbs: [],
       team_name: " ",
+      currentPage: 1,
+      perPage: 10,
+      originalposts: [],
+      total: null,
     };
   },
   methods: {
+    paginate(posts) {
+      let page = this.currentPage;
+      let perPage = this.perPage;
+      let from = page * perPage - perPage;
+      let to = page * perPage;
+
+      return posts.slice(from, to);
+    },
     setTime(dt) {
       let d = new Date(dt);
       let minutes =
@@ -80,15 +106,44 @@ export default {
     },
     setDate(dt) {
       let d = new Date(dt);
-      let day = d.getDay() == "0" ? "" : d.getDay();
-      let date = d.getDay() + "-" + d.getUTCMonth() + "-" + d.getUTCFullYear();
+      let date = `${d.getDay()}-${d.getUTCMonth()}-${d.getUTCFullYear()}`;
       return date;
     },
     handleDateInputs(from, to) {
-      console.log('ggg');
-      // this.matches.filter((item) => {
-      //   item.utcDate >= from && item.utcDate <= to;
-      // });
+      let filteredMatches = this.matches.filter(function (item) {
+        let dateUtc = new Date(item.utcDate);
+        console.log(dateUtc);
+
+        if (from && to) {
+          // console.log(dateUtc.getTime() >= from.getTime() && dateUtc.getTime() <= to.getTime() + '' + 'from-to');
+          return (
+            dateUtc.getTime() >= from.getTime() &&
+            dateUtc.getTime() <= to.getTime()
+          );
+        } else if (from && !to) {
+          // console.log(dateUtc.getTime() >= from.getTime());
+
+          return dateUtc.getTime() >= from.getTime();
+        } else if (to && !from) {
+          //console.log(dateUtc.getTime() >= from.getTime() + + '' + 'to');
+
+          return dateUtc.getTime() <= to.getTime();
+        }
+
+        return true;
+      });
+
+      // this.matches = filteredMatches;
+      console.log(filteredMatches);
+      return filteredMatches;
+    },
+    onPageClick(event) {
+      this.currentPage = event;
+    },
+  },
+  computed:{
+    displayedPosts() {
+      return this.paginate(this.matches);
     },
   },
   created() {
@@ -102,11 +157,13 @@ export default {
     })
       .then((response) => {
         this.matches = response.data.matches;
+        this.originalposts = this.matches;
+        this.total = this.matches.length;
       })
       .catch(() => {
         console.log("error");
       });
-
+      
     axios({
       method: "get",
       url:

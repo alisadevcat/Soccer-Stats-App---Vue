@@ -44,7 +44,6 @@
           <button
             class="
               btn
-              inline-block
               px-6
               py-2.5
               bg-blue-600
