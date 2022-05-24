@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper" id="app">
     <app-header></app-header>
-    <main class="page-main">
+    <main class="pt-30 flex-auto">
       <router-view></router-view>
     </main>
     <app-footer></app-footer>
@@ -21,8 +21,3 @@ export default {
 };
 </script>
 
-<style lang="scss">
-
- @import "./assets/sass/app.scss";
-
-</style>

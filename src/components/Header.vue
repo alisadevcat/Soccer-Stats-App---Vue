@@ -1,5 +1,5 @@
 <template>
-  <header class="page-head">
+  <header class="fixed top-0 left-0 w-full z-80">
     <app-menu></app-menu>
   </header>
 </template>

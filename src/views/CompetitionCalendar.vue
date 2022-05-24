@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto max-w-screen-xl px-3 box-border">
-    <h1>Календарь лиги</h1>
+      <div class="text-center"><h1>Календарь лиги</h1> </div>  
     <app-breadcrumbs :breadcrumbs="breadCrumbs" />
     <app-date-filter />
     <table class="w-full pt-2">

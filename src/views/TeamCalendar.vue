@@ -1,9 +1,7 @@
 <template>
   <div class="container mx-auto max-w-screen-xl px-3 box-border">
-    <h1>Календарь команды</h1>
+<div class="text-center"><h1>Календарь команды</h1></div>   
 
-      {{ total }}
-     
     <app-breadcrumbs :breadcrumbs="breadCrumbs" />
     <app-date-filter @handle-inputs="handleDateInputs" />
 
@@ -23,7 +21,6 @@
         <tbody class="divide-y divide-gray-100">
           <tr v-for="match in displayedPosts" :key="match.id">
             <td class="p-3 text-sm whitespace-nowrap">
-              {{match.utcDate}}<br>
               {{ setDate(match.utcDate) }}
             </td>
             <td class="p-3 text-sm whitespace-nowrap">
@@ -113,38 +110,39 @@ export default {
       return date;
     },
     handleDateInputs(from, to) {
-      let filteredMatches = this.matches.filter(function (item) {
-        let dateUtc = new Date(item.utcDate);
-        //console.log(dateUtc);
+      if (from || to) {
+        let filteredMatches = this.matches.filter(function (item) {
+          let dateUtc = new Date(item.utcDate);
+          //console.log(dateUtc);
 
-        if (from && to) {
-          // console.log(dateUtc.getTime() >= from.getTime() && dateUtc.getTime() <= to.getTime() + '' + 'from-to');
-          return (
-            dateUtc.getTime() >= from.getTime() &&
-            dateUtc.getTime() <= to.getTime()
-          );
-        } else if (from && !to) {
-        console.log(dateUtc.getTime() >= from.getTime());
+          if (from && to) {
+            // console.log(dateUtc.getTime() >= from.getTime() && dateUtc.getTime() <= to.getTime() + '' + 'from-to');
+            return (
+              dateUtc.getTime() >= from.getTime() &&
+              dateUtc.getTime() <= to.getTime()
+            );
+          } else if (from && !to) {
+            console.log(dateUtc.getTime() >= from.getTime());
 
-          return dateUtc.getTime() >= from.getTime();
-        } else if (to && !from) {
-          //console.log(dateUtc.getTime() >= from.getTime() + + '' + 'to');
+            return dateUtc.getTime() >= from.getTime();
+          } else if (to && !from) {
+            //console.log(dateUtc.getTime() >= from.getTime() + + '' + 'to');
 
-          return dateUtc.getTime() <= to.getTime();
-        }
+            return dateUtc.getTime() <= to.getTime();
+          }
 
-        return true;
-      });
+          return true;
+        });
 
-      this.matches = filteredMatches;
-      console.log(filteredMatches);
-      return filteredMatches;
+        this.matches = filteredMatches;
+        this.total = filteredMatches.length;
+      }
     },
     onPageClick(event) {
       this.currentPage = event;
     },
   },
-  computed:{
+  computed: {
     displayedPosts() {
       return this.paginate(this.matches);
     },
@@ -159,12 +157,12 @@ export default {
       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     })
       .then((response) => {
-        this.matches = response.data.matches;
+        this.matches = response.data?.matches;
         this.originalPosts = this.matches;
         this.total = this.matches.length;
       })
-      .catch(() => {
-        console.log("error");
+      .catch((error) => {
+        console.log(error);
       });
 
     axios({

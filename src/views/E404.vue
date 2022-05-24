@@ -3,7 +3,7 @@
     <h1>Sorry, the page is not found</h1>
     <hr />
     Start from the
-    <a href="/" class="font-bold blue"> main page</a>
+    <a href="/" class="text-hover-blue"> main page</a>
   </div>
 </template>
 

@@ -1,18 +1,18 @@
 <template>
   <!-- navbar -->
-  <nav class="navbar bg-secondary">
+  <nav class="bg-very-light-gray">
     <div>
-      <div class="site-nav container-fluid">
-        <div class="site-nav__logo">
+      <div class="flex justify-start items-center container mx-auto">
+        <div class="pl-10">
           <router-link :to="{ name: 'home' }">
             <img src="../assets/images/soccer_logo.png" alt="Logo" />
           </router-link>
         </div>
-        <ul class="site-nav__list row">
-          <li class="ml-1 text-hover-blue display-block">
+        <ul class="flex flex-row justify-around">
+          <li class="ml-10 text-hover-blue block flex-1 ">
             <router-link :to="{ name: 'competitions' }"> Лиги</router-link>
           </li>
-          <li class="ml-1 text-hover-blue display-block">
+          <li class="ml-10 text-hover-blue block flex-1">
             <router-link :to="{ name: 'teams' }"> Команды</router-link>
           </li>
         </ul>

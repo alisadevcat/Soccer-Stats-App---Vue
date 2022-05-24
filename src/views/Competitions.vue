@@ -1,6 +1,7 @@
 <template>
   <div class="container mx-auto max-w-screen-xl px-3 box-border">
-    <h1>Лиги</h1>
+    <div class="text-center"> <h1>Лиги</h1></div>
+
     <app-search
       :posts="posts"
       :originalPosts="originalPosts"
@@ -10,7 +11,7 @@
 
     <div class="grid grid-cols-14 gap-4 place-content-center">
       <div
-        class="border rounded-sm border-black border-solid py-12"
+        class="border rounded-sm border-black border-solid py-12 text-center"
         v-for="item in displayedPosts"
         :key="item.id"
       >
@@ -84,7 +85,6 @@ export default {
     handleInput(obj) {
       this.posts = obj.result_posts;
       this.total = obj.result_posts.length;
-          console.log(obj.result_posts.length);
     },
     onPageClick(event) {
       this.currentPage = event;

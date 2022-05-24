@@ -1,7 +1,6 @@
 <template>
   <div class="container mx-auto max-w-screen-xl px-3 box-border">
-    <h1>Команды</h1>
-
+    <div class="text-center"> <h1>Команды</h1></div>
     <app-search
       :posts="teams"
       :originalPosts="originalTeams"
@@ -10,7 +9,7 @@
     />
 
     <div class="grid grid-cols-13 gap-2 place-content-center">
-      <div class="border rounded-sm border-black border-solid py-12 " v-for="team in displayedPosts" :key="team.id">
+      <div class="border rounded-sm border-black border-solid py-12 text-center" v-for="team in displayedPosts" :key="team.id">
   
         <router-link :to="{ name: 'team-calendar', params: { id: team.id , team_name: team.name } }" :key="team.id">
           <div>
