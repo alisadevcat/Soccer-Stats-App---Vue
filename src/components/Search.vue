@@ -4,63 +4,70 @@
       <div
         class="input-group relative flex flex-wrap items-stretch w-full mb-4"
       >
-        <form
-          role="search"
-          class="site-search site-nav__search"
-          @submit.prevent="searchSubmit"
-        >
-          <input
-            type="search"
-            name="search"
-            :value="searchString"
-            @input="handleInput"
-            class="
-              form-control
-              relative
-              flex-auto
-              min-w-0
-              block
-              w-full
-              px-3
-              py-1.5
-              text-base
-              font-normal
-              text-gray-700
-              bg-white bg-clip-padding
-              border border-solid border-gray-300
-              rounded
-              transition
-              ease-in-out
-              m-0
-              focus:text-gray-700
-              focus:bg-white
-              focus:border-blue-600
-              focus:outline-none
-            "
-            aria-label="Search"
-            aria-describedby="button-addon2"
-            placeholder="Search?"
-          />
-          <button
-            type="submit"
-            class="
-              absolute
-              top-0
-              right-0
-              p-2.5
-              text-sm
-              font-medium
-              text-white
-              bg-blue-700
-              rounded-r-lg
-              border border-blue-700
-              hover:bg-blue-800
-              focus:ring-4 focus:outline-none focus:ring-blue-300
-              dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
-            "
-          >
-            <icon-search />
-          </button>
+        <form role="search" @submit.prevent="searchSubmit">
+          <div class="flex">
+            <div class="relative w-full">
+              <input
+                type="search"
+                name="search"
+                :value="searchString"
+                @input="handleInput"
+                class="
+                  block
+                  p-2.5
+                  w-full
+                  z-20
+                  text-sm text-gray-900
+                  bg-gray-50
+                  rounded-r-lg
+                  border-l-gray-50 border-l-2 border border-gray-300
+                  focus:ring-blue-500 focus:border-blue-500
+                  dark:bg-gray-700
+                  dark:border-l-gray-700
+                  dark:border-gray-600
+                  dark:placeholder-gray-400
+                  dark:text-white
+                  dark:focus:border-blue-500
+                "
+                placeholder="Search..."
+              />
+              <button
+                type="submit"
+                class="
+                  absolute
+                  top-0
+                  right-0
+                  p-2.5
+                  text-sm
+                  font-medium
+                  text-white
+                  bg-blue-700
+                  rounded-r-lg
+                  border border-blue-700
+                  hover:bg-blue-800
+                  focus:ring-4 focus:outline-none focus:ring-blue-300
+                  dark:bg-blue-600
+                  dark:hover:bg-blue-700
+                  dark:focus:ring-blue-800
+                "
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     </div>
@@ -95,22 +102,25 @@ export default {
       );
 
       let result_array = this.posts.map((item) => (item = Object.values(item)));
+      result_array = result_array.map((item) => (item = String(item)));
 
-      let results = result_array.filter(
-        (el) =>
-          el.includes(strLowCase) ||
-          el.includes(strUpperCase) ||
-          el.includes(strCamelCase)
-      );
+      let results = result_array.filter((post) => {
+        return post.toLowerCase().includes(strLowCase);
+      });
 
-      let search_results = results.map(
-        (item) =>
-          (item = {
-            id: results[0][0],
-            name: results[0][1],
-            area: results[0][2],
-          })
-      );
+      results = results.map((element) => element.split(","));
+
+      let search_results = [];
+
+      results.forEach((el, index, arr) => {
+        search_results[index] = {
+          id: arr[index][0],
+          name: arr[index][1],
+          area: arr[index][2],
+        };
+      });
+
+      console.log(search_results);
 
       if (this.searchString) {
         this.search_posts = search_results;

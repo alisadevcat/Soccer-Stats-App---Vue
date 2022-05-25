@@ -74,13 +74,11 @@ export default {
     AppDateFilter,
     VueTailwindPagination,
   },
-  props: ["id", "team_name"],
   data() {
     return {
       matches: [],
       team: null,
       breadCrumbs: [],
-      team_name: " ",
       currentPage: 1,
       perPage: 10,
       originalPosts: [],
@@ -162,7 +160,7 @@ export default {
         this.total = this.matches.length;
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
 
     axios({
@@ -173,11 +171,10 @@ export default {
       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     })
       .then((response) => {
-        this.team_name = response.data.name;
-        this.breadCrumbs = ["Команды", this.team_name];
+        this.breadCrumbs = [{ name: "Команды" },{ name: response.data.name}];
       })
       .catch(() => {
-        console.log(error);
+        // console.log(error);
       });
   },
 };

@@ -1,7 +1,9 @@
 <template>
   <div class="container mx-auto max-w-screen-xl px-3 box-border">
-      <div class="text-center"><h1>Календарь лиги</h1> </div>  
+    <div class="text-center"><h1>Календарь лиги</h1></div>
+    {{breadCrumbs}}
     <app-breadcrumbs :breadcrumbs="breadCrumbs" />
+
     <app-date-filter />
     <table class="w-full pt-2">
       <thead class="bg-gray-200 border-b-2 border-gray-500">
@@ -39,7 +41,7 @@
     </table>
 
     <div class="mt-3 font-bold">
-      <h3>{{ message }}</h3>
+      <h3>{{ errorMessage }}</h3>
     </div>
   </div>
 </template>
@@ -60,50 +62,48 @@ export default {
   data() {
     return {
       competitions: [],
-      message: "",
+      errorMessage: "",
       competition: null,
       breadCrumbs: [],
     };
   },
-  computed: {
-    breadCrumbs() {
-      return ["Лиги", this.competition];
-    },
-  },
-  mounted() {
+  created() {
     axios({
       method: "get",
       url:
         "http://api.football-data.org/v2/competitions/" +
-        parseInt(this.$route.params.id) +
-        "/matches",
+        parseInt(this.$route.params.id) + "/matches",
       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     })
       .then((response) => {
         this.competitions = response;
       })
       .catch((err) => {
-        console.log("error");
-        // this.message = "The resource you are looking for is restricted. Please pass a valid API token and check your subscription for permission.";
-        this.message = err;
-        throw err;
+        if (err.response) {
+          this.errorMessage =
+            "Не удалось загрузить данные из-за ошибки доступа";
+          // client received an error response (5xx, 4xx)
+          console.log(err.response);
+        } else if (err.request) {
+          // client never received a response, or request never left
+          this.errorMessage = "Ошибка сети";
+          console.log(err.request);
+        } else {
+          console.log("app mistake");
+          // anything else
+        }
       });
 
     axios({
       method: "get",
       url:
         "http://api.football-data.org/v2/competitions/" +
-        parseInt(this.$route.params.id),
+        parseInt(this.$route.params.id) + '/matches',
       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     })
       .then((response) => {
-        this.breadCrumbs = ["Лиги", this.response.data.name];
-      })
-      .catch(() => {
-        console.log(error);
+        this.breadCrumbs = [{ name: "Лиги" }, { name: response.data.name }];
       });
-
-    this.competition = this.$route.params.competition_name;
   },
 };
 </script>

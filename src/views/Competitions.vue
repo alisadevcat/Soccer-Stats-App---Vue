@@ -31,7 +31,7 @@
     <div class="text-center">
       <p ref="not_found"></p>
     </div>
-    <div class="py-4">
+    <div class="py-4 flex flex-row justify-center">
       <VueTailwindPagination
         :current="currentPage"
         :total="total"
@@ -104,72 +104,22 @@ export default {
       url: "https://api.football-data.org/v2/competitions",
       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     }).then((response) => {
-      let competitions = response.data.competitions.map(
-        (item) =>
-          (item = { id: item.id, name: item.name, area: item.area.name })
-      );
+      console.log(response.data.competitions);
+
+      let competitions = response.data.competitions.map((item) =>( item = { id: item.id ?? 0, name: item.name, area: item.area.name }));
       this.posts = competitions;
       this.originalPosts = competitions;
       this.total = competitions.length;
-    });
+    })
+   .catch(err => { 
+    if (err.response) { 
+      // client received an error response (5xx, 4xx)
+    } else if (err.request) { 
+      // client never received a response, or request never left 
+    } else { 
+      // anything else 
+    } 
+  });
   },
 };
 </script>
-
-<style>
-.pagination {
-  list-style-type: none;
-}
-.pagination-item {
-  display: inline-block;
-  padding: 3px;
-}
-.active {
-  background-color: #4aae9b;
-  color: #ffffff;
-}
-</style>
-
-<!-- <div class="pagination row">
-      <ul class="pagination-list">
-        <span class="pagination-button">
-          <button type="button" v-if="page != 1" @click="page--">
-            Previous
-          </button>
-        </span>
-        <button
-          type="button"
-          v-for="pageNumber in pages.slice(page - 1, page + 9)"
-          :key="pageNumber"
-          @click="page = pageNumber"
-        >
-          {{ pageNumber }}
-        </button>
-
-        <span class="pagination-button">
-          <button type="button" @click="page++" v-if="page < pages.length">
-            Next
-          </button>
-        </span>
-      </ul>
-    </div> -->
-
-<!-- <form
-      role="search"
-      class="site-search site-nav__search"
-      @submit.prevent="onFormSubmit"
-    >
-      <input
-        type="search"
-        name="search"
-        :value="searchString"
-        @input="handleInput"
-        class="site-search__input js-search-field"
-        placeholder="Search?"
-      />
-      <button class="site-search__btn" type="submit">
-        <span class="u-visually-hidden">
-          <img src="../../src/assets/images/search.svg" />
-        </span>
-      </button>
-    </form> -->
