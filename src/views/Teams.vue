@@ -1,5 +1,6 @@
 <template>
   <div class="container mx-auto max-w-screen-xl px-3 box-border">
+
     <div class="text-center"> <h1>Команды</h1></div>
     <app-search
       :posts="teams"
@@ -58,6 +59,7 @@ export default {
       currentPage: 1,
       pages: [],
       total: null,
+      originalTeams: [],
     };
   },
   methods: {
@@ -73,20 +75,32 @@ export default {
       this.currentPage = event;
     },
     handleSubmit(obj) {
-      this.teams = obj.result_posts;
+   let search_results = [];
+
+      obj.result_posts.forEach((el, index, arr) => {
+        search_results[index] = {
+          id: arr[index][0],
+          name: arr[index][2],
+          crestUrl: arr[index][5],
+        };
+      });
+
+      this.teams = search_results;
+      this.total = this.teams.length;
       if (obj.no_results_text) {
         this.$refs.not_found.innerText = obj.no_results_text;
       }
     },
     handleInput(obj) {
       this.teams = obj.result_posts;
+      this.total = obj.result_posts.length;
     },
   },
   computed: {
     key() {
       return apiKey;
     },
-       displayedPosts() {
+    displayedPosts() {
       return this.paginate(this.teams);
     }
   },
@@ -103,22 +117,3 @@ export default {
   },
 };
 </script>
-
-
-<style>
-.card-image {
-  padding-top: 1rem;
-}
-.pagination {
-  list-style-type: none;
-}
-
-.pagination-item {
-  display: inline-block;
-  padding: 3px;
-}
-.active {
-  background-color: #4aae9b;
-  color: #ffffff;
-}
-</style>

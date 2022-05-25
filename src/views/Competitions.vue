@@ -76,7 +76,17 @@ export default {
       return posts.slice(from, to);
     },
     handleSubmit(obj) {
-      this.posts = obj.result_posts;
+
+        let search_results = [];
+
+      obj.result_posts.forEach((el, index, arr) => {
+        search_results[index] = {
+          id: arr[index][0],
+          name: arr[index][1],
+          area: arr[index][2],
+        };
+      });
+      this.posts = search_results;
       this.total = this.posts.length;
       if (obj.no_results_text) {
         this.$refs.not_found.innerText = obj.no_results_text;
@@ -105,8 +115,8 @@ export default {
       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     }).then((response) => {
       console.log(response.data.competitions);
-
-      let competitions = response.data.competitions.map((item) =>( item = { id: item.id ?? 0, name: item.name, area: item.area.name }));
+      
+      let competitions = response.data?.competitions.map((item) =>(item = { id: item.id, name: item.name, area: item.area.name }));
       this.posts = competitions;
       this.originalPosts = competitions;
       this.total = competitions.length;

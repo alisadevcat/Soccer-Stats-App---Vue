@@ -95,11 +95,6 @@ export default {
   methods: {
     searchSubmit() {
       let strLowCase = this.searchString.toLowerCase();
-      let strUpperCase = this.searchString.toUpperCase();
-      let strCamelCase = this.searchString.replace(
-        this.searchString.charAt(0),
-        this.searchString.charAt(0).toUpperCase()
-      );
 
       let result_array = this.posts.map((item) => (item = Object.values(item)));
       result_array = result_array.map((item) => (item = String(item)));
@@ -108,19 +103,8 @@ export default {
         return post.toLowerCase().includes(strLowCase);
       });
 
-      results = results.map((element) => element.split(","));
-
-      let search_results = [];
-
-      results.forEach((el, index, arr) => {
-        search_results[index] = {
-          id: arr[index][0],
-          name: arr[index][1],
-          area: arr[index][2],
-        };
-      });
-
-      console.log(search_results);
+     let search_results = results.map((element) => element.split(","));
+console.log(search_results);
 
       if (this.searchString) {
         this.search_posts = search_results;
