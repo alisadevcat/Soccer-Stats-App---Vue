@@ -104,7 +104,6 @@ export default {
       });
 
      let search_results = results.map((element) => element.split(","));
-console.log(search_results);
 
       if (this.searchString) {
         this.search_posts = search_results;

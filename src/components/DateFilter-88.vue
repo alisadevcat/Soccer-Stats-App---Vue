@@ -1,8 +1,8 @@
 <template>
-  <div class="mt-1 mb-3 flex flex-column">
+ <div class="mt-1 mb-3 flex flex-column">
     <div class="float-left pr-2 mt-2">Матчи</div>
     <div date-rangepicker class="flex items-center">
-      <span class="mr-4 text-gray-500">с</span>
+      <span class="mx-4 text-gray-500">с</span>
       <div class="relative">
         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
         >
@@ -27,6 +27,7 @@
           @change="handleDates"
           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Select date start"
+          required
         />
       </div>
       <span class="mx-4 text-gray-500">до</span>
@@ -55,12 +56,16 @@
           @change="handleDates"
           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Select date end"
+          required
         />
       </div>
     </div>
+
+    {{ dateFrom }}
+    <br />
+    {{ dateTo }}
   </div>
 </template>
-
 
 <script>
 export default {
@@ -80,8 +85,8 @@ export default {
     handleDates() {
       let from = this.localizeDate(this.dateFrom);
       let to = this.localizeDate(this.dateTo);
-    
-      this.$emit("handle-inputs", from, to);
+
+      this.$emit("handle-inputs", this.dateFrom, this.dateTo);
     },
   },
   computed: {

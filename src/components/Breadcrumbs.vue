@@ -4,7 +4,7 @@
       class="inline-flex items-center space-x-1 md:space-x-3">
       <li v-for="breadcrumb in breadcrumbs"
       :key="breadcrumb" class="after:content-['/'] after:mx-2 last:after:hidden">
-        <a href="#" class="">{{ breadcrumb.name }}</a>
+        <span>{{ breadcrumb.name }}</span>
       </li>
     </ol>
   </nav>
@@ -20,10 +20,10 @@ export default {
 
 <style scoped>
 
-#breadcrumb_nav li a::after {
+#breadcrumb_nav li span::after {
   content: " >";
 }
-#breadcrumb_nav li:not(:first-child) a::after {
+#breadcrumb_nav li:not(:first-child) span::after {
   content: "";
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto max-w-screen-xl px-3 box-border">
-    <div class="text-center"><h1>Календарь команды</h1></div>
+<div class="text-center"><h1>Календарь команды</h1></div>   
 
     <app-breadcrumbs :breadcrumbs="breadCrumbs" />
     <app-date-filter @handle-inputs="handleDateInputs" />
@@ -21,61 +21,31 @@
         <tbody class="divide-y divide-gray-100">
           <tr v-for="match in displayedPosts" :key="match.id">
             <td class="p-3 text-sm whitespace-nowrap">
-              <span v-if="match.utcDate">{{ setDate(match.utcDate) }} </span>
+              {{ setDate(match.utcDate) }}
             </td>
             <td class="p-3 text-sm whitespace-nowrap">
-              <span v-if="match.utcDate">{{ setTime(match.utcDate) }}</span>
+              {{ setTime(match.utcDate) }}
             </td>
+            <td class="p-3 text-sm whitespace-nowrap">{{ match.status }}</td>
             <td class="p-3 text-sm whitespace-nowrap">
-              <span v-if="match.status">{{ match.status }}</span>
-            </td>
-            <td class="p-3 text-sm whitespace-nowrap">
-              <span v-if="match.homeTeam.name && match.awayTeam.name"
-                >{{ match.homeTeam.name }} - {{ match.awayTeam.name }}</span
-              >
+              {{ match.homeTeam.name }} - {{ match.awayTeam.name }}
             </td>
 
             <td class="p-3 text-sm whitespace-nowrap">
-              <span
-                v-if="
-                  match.score.fullTime.homeTeam && match.score.fullTime.awayTeam
-                "
-              >
-                {{ match.score.fullTime.homeTeam }} :
-                {{ match.score.fullTime.awayTeam }}
-              </span>
+              {{ match.score.fullTime.homeTeam }} :
+              {{ match.score.fullTime.awayTeam }}
             </td>
             <td class="p-3 text-sm whitespace-nowrap">
-              <span
-                v-if="
-                  match.score.extraTime.homeTeam &&
-                  match.score.extraTime.awayTeam
-                "
-              >
-                {{ match.score.extraTime.homeTeam }} :
-                {{ match.score.extraTime.awayTeam }}</span
-              >
+              {{ match.score.extraTime.homeTeam }} :
+              {{ match.score.extraTime.awayTeam }}
             </td>
             <td class="p-3 text-sm whitespace-nowrap">
-              <span
-                v-if="
-                  match.score.penalties.homeTeam &&
-                  match.score.penalties.awayTeam
-                "
-              >
-                {{ match.score.penalties.homeTeam }} :
-                {{ match.score.penalties.awayTeam }}</span
-              >
+              {{ match.score.penalties.homeTeam }} :
+              {{ match.score.penalties.awayTeam }}
             </td>
           </tr>
         </tbody>
       </table>
-      <div class="mt-10 font-bold" v-if="errorMessage">
-        <h2>{{ errorMessage }}</h2>
-      </div>
-    </div>
-          <div class="text-center">
-      <p ref="not_found"></p>
     </div>
 
     <div class="py-4">
@@ -165,11 +135,6 @@ export default {
         });
 
         this.matches = filteredMatches;
-
-        if (!this.matches) {
-         this.$refs.not_found.innerText = obj.no_results_text = "No results found";
-        }
-
         this.total = filteredMatches.length;
       }
     },
@@ -196,21 +161,8 @@ export default {
         this.originalPosts = this.matches;
         this.total = this.matches.length;
       })
-      .catch((err) => {
-        if (err.response) {
-          this.errorMessage =
-            "Не удалось загрузить данные из-за ошибки доступа";
-          // client received an error response (5xx, 4xx)
-          console.log(err.response);
-        } else if (err.request) {
-          // client never received a response, or request never left
-          this.errorMessage = "Ошибка сети";
-          s;
-          console.log(err.request);
-        } else {
-          console.log("app mistake");
-          // anything else
-        }
+      .catch((error) => {
+        // console.log(error);
       });
 
     axios({
@@ -221,11 +173,24 @@ export default {
       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     })
       .then((response) => {
-        this.breadCrumbs = [{ name: "Команды" }, { name: response.data.name }];
+        this.breadCrumbs = [{ name: "Команды" },{ name: response.data.name}];
       })
       .catch(() => {
         // console.log(error);
       });
+
+
+       axios({
+      method: "get",
+      url:
+        "http://api.football-data.org/v2/competitions/{id}/matches?dateFrom=" +
+        this.dateFrom +
+        "&dateTo=" +
+        this.dateTo,
+      headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
+    }).then((response) => {
+      console.log(response);
+    });
   },
 };
 </script>

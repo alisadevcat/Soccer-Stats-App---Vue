@@ -1,7 +1,8 @@
 <template>
   <div class="container mx-auto max-w-screen-xl px-3 box-border">
-
-    <div class="text-center"> <h1>Команды</h1></div>
+    <div class="text-center">
+      <h1>Команды</h1>
+    </div>
     <app-search
       :posts="teams"
       :originalPosts="originalTeams"
@@ -10,29 +11,44 @@
     />
 
     <div class="grid grid-cols-13 gap-2 place-content-center">
-      <div class="border rounded-sm border-black border-solid py-12 text-center" v-for="team in displayedPosts" :key="team.id">
-  
-        <router-link :to="{ name: 'team-calendar', params: { id: team.id , team_name: team.name } }" :key="team.id">
+      <div
+        class="border rounded-sm border-black border-solid py-12 text-center"
+        v-for="team in displayedPosts"
+        :key="team.id"
+      >
+        <router-link
+          :to="{
+            name: 'team-calendar',
+            params: { id: team.id, team_name: team.name },
+          }"
+          :key="team.id"
+        >
           <div>
-            <p class="pb-4">{{ team.name }}</p>
-              <img v-if="team.crestUrl"
-                :src="team.crestUrl"
-                :alt="team.name"
-                width="96"
-                height="96"
-                class="block mx-auto">
+            <p class="pb-4" v-if="team.name">{{ team.name }}</p>
+            <img
+              v-if="team.crestUrl"
+              :src="team.crestUrl"
+              :alt="team.name"
+              width="96"
+              height="96"
+              class="block mx-auto"
+            />
           </div>
         </router-link>
       </div>
     </div>
-<div class="py-4">
-    <VueTailwindPagination
-      :current="currentPage"
-      :total="total"
-      :per-page="perPage"
-      @page-changed="onPageClick($event)"
-    />
-  </div>
+    <div class="text-center">
+      <p ref="not_found"></p>
+    </div>
+
+    <div class="py-4">
+      <VueTailwindPagination
+        :current="currentPage"
+        :total="total"
+        :per-page="perPage"
+        @page-changed="onPageClick($event)"
+      />
+    </div>
   </div>
 </template>
 
@@ -63,7 +79,7 @@ export default {
     };
   },
   methods: {
-     paginate(teams) {
+    paginate(teams) {
       let page = this.currentPage;
       let perPage = this.perPage;
       let from = page * perPage - perPage;
@@ -75,7 +91,7 @@ export default {
       this.currentPage = event;
     },
     handleSubmit(obj) {
-   let search_results = [];
+      let search_results = [];
 
       obj.result_posts.forEach((el, index, arr) => {
         search_results[index] = {
@@ -102,7 +118,10 @@ export default {
     },
     displayedPosts() {
       return this.paginate(this.teams);
-    }
+    },
+    // teamsForSearch() {
+    //   return this.teams.map(({ crestUrl, ...rest }) => rest);
+    // },
   },
   created() {
     axios({
@@ -110,9 +129,10 @@ export default {
       url: "https://api.football-data.org/v2/teams",
       headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
     }).then((response) => {
-      this.teams = response.data.teams;
-      this.originalTeams = response.data.teams;
-      this.total = response.data.teams.length;
+      let teams = response.data?.teams;
+      this.teams = teams;
+      this.originalTeams = teams;
+      this.total = teams.length;
     });
   },
 };
