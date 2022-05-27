@@ -2,9 +2,9 @@
 const path = require("path");
 
 module.exports = {
+ publicPath: '/Soccer-Stats-App---Vue/',
   filenameHashing: false,
   productionSourceMap: false,
-  publicPath: "/",
   configureWebpack: {
     devtool: 'source-map'
   },
