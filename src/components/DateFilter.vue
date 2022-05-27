@@ -82,6 +82,7 @@ export default {
       let to = this.localizeDate(this.dateTo);
     
       this.$emit("handle-inputs", from, to);
+
     },
   },
   computed: {

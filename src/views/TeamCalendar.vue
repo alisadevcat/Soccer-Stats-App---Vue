@@ -171,6 +171,9 @@ export default {
         }
 
         this.total = filteredMatches.length;
+      }else {
+          this.matches = this.originalPosts;
+          this.total = this.originalPosts.length;
       }
     },
     onPageClick(event) {
