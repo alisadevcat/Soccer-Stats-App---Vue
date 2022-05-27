@@ -2,7 +2,9 @@
 const path = require("path");
 
 module.exports = {
- publicPath: '/Soccer-Stats-App---Vue/',
+ publicPath: process.env.NODE_ENV === 'production'
+ ? '/Soccer-Stats-App---Vue/'
+ : '/',
   filenameHashing: false,
   productionSourceMap: false,
   configureWebpack: {
