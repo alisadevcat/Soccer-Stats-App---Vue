@@ -6,66 +6,84 @@
     <app-date-filter @handle-inputs="handleDateInputs" />
 
     <div class="oveflow-auto rounded-lg shadow">
-      <table class="w-full pt-2">
-        <thead class="bg-gray-200 border-b-2 border-gray-500">
-          <tr>
-            <th class="py-2">Дата</th>
-            <th class="py-2">Время</th>
-            <th class="py-2">Статус</th>
-            <th class="py-2">Команды участники</th>
-            <th class="py-2">Счёт в основное время</th>
-            <th class="py-2">Cчёт в дополнительное время</th>
-            <th class="py-2">Пенальти</th>
+      <table class="min-w-full border-collapse block md:table">
+        <thead class="block md:table-header-group">
+          <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto md:relative">
+            <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"> Дата </th>
+            <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"> Время</th>
+            <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"> Статус</th>
+            <th
+              class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"
+            >
+              Команды участники
+            </th>
+            <th
+              class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"
+            >
+              Счёт в основное время
+            </th>
+            <th
+              class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"
+            >
+              Cчёт в дополнительное время
+            </th>
+            <th
+              class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"
+            >
+              Пенальти
+            </th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100">
-          <tr v-for="match in displayedPosts" :key="match.id">
-            <td class="p-3 text-sm whitespace-nowrap">
+        <tbody class="block md:table-row-group">
+          <tr
+            class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+            v-for="match in displayedPosts"
+            :key="match.id"
+          >
+            <td
+              class="p-2 md:border md:border-grey-500 text-left block md:table-cell"
+            >
+              <span class="inline-block w-1/3 md:hidden font-bold">Дата</span>
               <span v-if="match.utcDate">{{ setDate(match.utcDate) }} </span>
             </td>
-            <td class="p-3 text-sm whitespace-nowrap">
+            <td
+              class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+              <span class="inline-block w-1/3 md:hidden font-bold">Время</span>
               <span v-if="match.utcDate">{{ setTime(match.utcDate) }}</span>
             </td>
-            <td class="p-3 text-sm whitespace-nowrap">
+            <td
+              class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+              <span class="inline-block w-1/3 md:hidden font-bold">Статус</span>
               <span v-if="match.status">{{ match.status }}</span>
             </td>
-            <td class="p-3 text-sm whitespace-nowrap">
-              <span v-if="match.homeTeam.name && match.awayTeam.name"
-                >{{ match.homeTeam.name }} - {{ match.awayTeam.name }}</span
-              >
+            <td
+              class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+              <span class="inline-block w-1/3 md:hidden font-bold">Команды участники</span>
+              <span v-if="match.homeTeam.name && match.awayTeam.name">
+              {{ match.homeTeam.name }} - {{ match.awayTeam.name }}</span>
             </td>
-
-            <td class="p-3 text-sm whitespace-nowrap">
-              <span
-                v-if="
-                  match.score.fullTime.homeTeam && match.score.fullTime.awayTeam
-                "
-              >
+            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                 <span class="inline-block w-1/3 md:hidden font-bold">Счёт в основное время</span>
+              <span v-if="match.score.fullTime.homeTeam && match.score.fullTime.awayTeam">
                 {{ match.score.fullTime.homeTeam }} :
                 {{ match.score.fullTime.awayTeam }}
               </span>
             </td>
-            <td class="p-3 text-sm whitespace-nowrap">
-              <span
-                v-if="
+            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell" >
+                <span class="inline-block w-1/3 md:hidden font-bold">Счёт в дополнительное время</span>
+              <span v-if="
                   match.score.extraTime.homeTeam &&
-                  match.score.extraTime.awayTeam
-                "
-              >
+                  match.score.extraTime.awayTeam">
                 {{ match.score.extraTime.homeTeam }} :
-                {{ match.score.extraTime.awayTeam }}</span
-              >
+                {{ match.score.extraTime.awayTeam }}</span>
             </td>
-            <td class="p-3 text-sm whitespace-nowrap">
-              <span
-                v-if="
+            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                   <span class="inline-block w-1/3 md:hidden font-bold">Пенальти</span>
+              <span v-if="
                   match.score.penalties.homeTeam &&
-                  match.score.penalties.awayTeam
-                "
-              >
+                  match.score.penalties.awayTeam">
                 {{ match.score.penalties.homeTeam }} :
-                {{ match.score.penalties.awayTeam }}</span
-              >
+                {{ match.score.penalties.awayTeam }}</span>
             </td>
           </tr>
         </tbody>
@@ -74,7 +92,7 @@
         <h2>{{ errorMessage }}</h2>
       </div>
     </div>
-          <div class="text-center">
+    <div class="text-center">
       <p ref="not_found"></p>
     </div>
 
@@ -167,13 +185,14 @@ export default {
         this.matches = filteredMatches;
 
         if (!this.matches) {
-         this.$refs.not_found.innerText = obj.no_results_text = "No results found";
+          this.$refs.not_found.innerText = obj.no_results_text =
+            "No results found";
         }
 
         this.total = filteredMatches.length;
-      }else {
-          this.matches = this.originalPosts;
-          this.total = this.originalPosts.length;
+      } else {
+        this.matches = this.originalPosts;
+        this.total = this.originalPosts.length;
       }
     },
     onPageClick(event) {

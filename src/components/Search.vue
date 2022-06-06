@@ -97,11 +97,14 @@ export default {
       let strLowCase = this.searchString.toLowerCase();
 
       let result_array = this.posts.map((item) => (item = Object.values(item)));
-      result_array = result_array.map((item) => (item = String(item)));
 
+
+      result_array = result_array.map((item) => (item = String(item)));
+ 
       let results = result_array.filter((post) => {
         return post.toLowerCase().includes(strLowCase);
       });
+
 
      let search_results = results.map((element) => element.split(","));
 
