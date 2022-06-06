@@ -7,14 +7,14 @@
     <app-search :posts="posts" :originalPosts="originalPosts" @handle-submit="handleSubmit"
       @handle-input="handleInput" />
 
-    <div class="grid grid-cols-14 gap-4 place-content-center">
+    <div class="grid xl:grid-cols-14 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-16 xs:grid-cols-16 md:gap-3 sm:gap-2 xs:gap-1 gap-4 place-content-center">
       <div class="border rounded-sm border-black border-solid py-12 text-center" v-for="item in displayedPosts"
         :key="item.id">
         <router-link :to="{
           name: 'competition-calendar',
           params: { id: item.id, code: item.code },
         }">
-          <div>
+          <div class="p-1.5">
             <p v-if="item.name">League: {{ item.name }}</p>
             <p v-if="item.area">Country: {{ item.area }}</p>
           </div>

@@ -10,7 +10,7 @@
       @handle-input="handleInput"
     />
 
-    <div class="grid grid-cols-13 gap-2 place-content-center">
+    <div class="grid xl:grid-cols-13 lg:grid-cols-13 md:grid-cols-3 sm:grid-cols-3 xs:grid-cols-2 gap-2 place-content-center">
       <div
         class="border rounded-sm border-black border-solid py-12 text-center"
         v-for="team in displayedPosts"
