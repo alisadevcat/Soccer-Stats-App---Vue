@@ -9,6 +9,9 @@ module.exports = {
         15: "repeat(2, minmax(100px, 1fr))",
         16: "repeat(2, minmax(100px, 1fr))",
       },
+      fontSize: {
+        'xs': '.75rem'
+      },
       colors: {
         "very-light-gray": "#f1f1f1",
       },
