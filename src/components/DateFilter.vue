@@ -2,7 +2,7 @@
   <div class="mt-1 mb-3 flex flex-column">
 
     <div date-rangepicker class="flex items-center">
-          
+          <span class="pr-2 mt-2">Матчи</span>
       <span class="mr-4 text-gray-500">с</span>
       <div class="relative">
         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
