@@ -224,18 +224,21 @@ export default {
       axios({
         method: "get",
         url:
-          "https://api.football-data.org/v2/teams/"+  parseInt(this.$route.params.id) +"/matches?dateFrom=" +
+          "https://api.football-data.org/v2/teams/" +
+          parseInt(this.$route.params.id) +
+          "/matches?dateFrom=" +
           this.dateFrom +
           "&dateTo=" +
           this.dateTo,
         headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
       })
         .then((response) => {
+           this.matches = response.data?.matches;
+          this.total = response.data?.matches.length;
+
           if (!this.matches) {
             this.$refs.not_found.innerText = "No results found";
           }
-          this.matches = response.data?.matches;
-          this.total = response.data?.matches.length;
         })
         .catch((err) => {
           console.log(err.response);
@@ -257,15 +260,14 @@ export default {
     this.$watch(
       (vm) => (vm.dateFrom, vm.dateTo),
       (val) => {
-
         if (this.dateFrom && this.dateTo) {
           this.handleFromTo();
           console.log("both");
+        } else {
+          this.matches = this.originalPosts;
+          this.total = this.originalPosts.length;
+          console.log("no values");
         }
-
-        this.matches = this.originalPosts;
-        this.total = this.originalPosts.length;
-        console.log("no values");
       }
     );
 
@@ -322,8 +324,7 @@ export default {
 };
 </script>
 
-
-    <!-- handleDateInputs(dates) {
+<!-- handleDateInputs(dates) {
       if (dates.from || dates.to) {
         let filteredMatches = this.matches.filter(function (item) {
           let dateUtc = new Date(item.utcDate);
