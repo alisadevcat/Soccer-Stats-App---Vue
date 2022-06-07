@@ -7,7 +7,10 @@
     <div class="text-center"><h1>Календарь команды</h1></div>
 
     <app-breadcrumbs :breadcrumbs="breadCrumbs" />
-    <app-date-filter @handle-inputs="handleDateInputs" />
+    <app-date-filter
+      @handle-input-from="handleDateInputFrom"
+      @handle-input-to="handleDateInputTo"
+    />
 
     <div class="oveflow-auto rounded-lg shadow">
       <table class="min-w-full border-collapse block md:table">
@@ -211,7 +214,116 @@ export default {
       let date = `${d.getDate()}-${month}-${d.getFullYear()}`;
       return date;
     },
-    handleDateInputs(dates) {
+    handleDateInputTo(to) {
+      this.dateTo = to;
+    },
+    handleDateInputFrom(from) {
+      this.dateFrom = from;
+    },
+    handleFromTo() {
+      axios({
+        method: "get",
+        url:
+          "https://api.football-data.org/v2/teams/"+  parseInt(this.$route.params.id) +"/matches?dateFrom=" +
+          this.dateFrom +
+          "&dateTo=" +
+          this.dateTo,
+        headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
+      })
+        .then((response) => {
+          if (!this.matches) {
+            this.$refs.not_found.innerText = "No results found";
+          }
+          this.matches = response.data?.matches;
+          this.total = response.data?.matches.length;
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
+    onPageClick(event) {
+      this.currentPage = event;
+    },
+  },
+  computed: {
+    displayedPosts() {
+      return this.paginate(this.matches);
+    },
+  },
+  mounted() {
+    this.isLoading = true;
+
+    //watch dates
+    this.$watch(
+      (vm) => (vm.dateFrom, vm.dateTo),
+      (val) => {
+
+        if (this.dateFrom && this.dateTo) {
+          this.handleFromTo();
+          console.log("both");
+        }
+
+        this.matches = this.originalPosts;
+        this.total = this.originalPosts.length;
+        console.log("no values");
+      }
+    );
+
+    //get all matches
+    axios({
+      method: "get",
+      url:
+        "https://api.football-data.org/v2/teams/" +
+        parseInt(this.$route.params.id) +
+        "/matches",
+      headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
+    })
+      .then((response) => {
+        this.matches = response.data?.matches;
+        this.originalPosts = this.matches;
+        this.total = this.matches.length;
+      })
+      .catch((err) => {
+        if (err.response) {
+          this.errorMessage =
+            "Не удалось загрузить данные из-за ошибки доступа";
+          // client received an error response (5xx, 4xx)
+          console.log(err.response);
+        } else if (err.request) {
+          // client never received a response, or request never left
+          this.errorMessage = "Ошибка сети";
+          s;
+          console.log(err.request);
+        } else {
+          console.log("app mistake");
+          // anything else
+        }
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+
+    //breadcrumbs
+
+    axios({
+      method: "get",
+      url:
+        "http://api.football-data.org/v2/teams/" +
+        parseInt(this.$route.params.id),
+      headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
+    })
+      .then((response) => {
+        this.breadCrumbs = [{ name: "Команды" }, { name: response.data.name }];
+      })
+      .catch(() => {
+        // console.log(error);
+      });
+  },
+};
+</script>
+
+
+    <!-- handleDateInputs(dates) {
       if (dates.from || dates.to) {
         let filteredMatches = this.matches.filter(function (item) {
           let dateUtc = new Date(item.utcDate);
@@ -248,64 +360,4 @@ export default {
         this.matches = this.originalPosts;
         this.total = this.originalPosts.length;
       }
-    },
-    onPageClick(event) {
-      this.currentPage = event;
-    },
-  },
-  computed: {
-    displayedPosts() {
-      return this.paginate(this.matches);
-    },
-  },
-  mounted() {
-    this.isLoading = true;
-    axios({
-      method: "get",
-      url:
-        "https://api.football-data.org/v2/teams/" +
-        parseInt(this.$route.params.id) +
-        "/matches",
-      headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
-    })
-      .then((response) => {
-        this.matches = response.data?.matches;
-        this.originalPosts = this.matches;
-        this.total = this.matches.length;
-      })
-      .catch((err) => {
-        if (err.response) {
-          this.errorMessage =
-            "Не удалось загрузить данные из-за ошибки доступа";
-          // client received an error response (5xx, 4xx)
-          console.log(err.response);
-        } else if (err.request) {
-          // client never received a response, or request never left
-          this.errorMessage = "Ошибка сети";
-          s;
-          console.log(err.request);
-        } else {
-          console.log("app mistake");
-          // anything else
-        }
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
-
-    axios({
-      method: "get",
-      url:
-        "http://api.football-data.org/v2/teams/" +
-        parseInt(this.$route.params.id),
-      headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
-    })
-      .then((response) => {
-        this.breadCrumbs = [{ name: "Команды" }, { name: response.data.name }];
-      })
-      .catch(() => {
-        // console.log(error);
-      });
-  },
-};
-</script>
+    }, -->

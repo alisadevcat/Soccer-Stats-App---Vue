@@ -1,11 +1,11 @@
 <template>
   <div class="mt-1 mb-3 flex flex-column">
-
     <div date-rangepicker class="flex items-center">
       <span class="mr-4">Матчи</span>
       <span class="mr-4 text-gray-500">с</span>
       <div class="relative">
-        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+        <div
+          class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
         >
           <svg
             class="w-5 h-5 text-gray-500 dark:text-gray-400"
@@ -25,7 +25,7 @@
           name="From"
           id=""
           v-model="dateFrom"
-          @change="handleDates"
+          @change="handleDateFrom"
           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Select date start"
         />
@@ -53,7 +53,7 @@
           name="To"
           id=""
           v-model="dateTo"
-          @change="handleDates"
+          @change="handleDateTo"
           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Select date end"
         />
@@ -62,48 +62,14 @@
   </div>
 </template>
 
-
 <script>
 export default {
-  data() {
-    return {
-      dateFrom: null,
-      dateTo: null,
-    };
-  },
   methods: {
-    localizeDate(date) {
-      if (!date || !date.includes("-")) return date;
-      const [yyyy, mm, dd] = date.split("-");
-      
-      return new Date(`${mm}/${dd}/${yyyy}`);
+    handleDateFrom(event) {
+      this.$emit("handle-input-from", event.target.value);
     },
-    handleDates() {
-      let from = this.localizeDate(this.dateFrom);
-      let to = this.localizeDate(this.dateTo);
-      let dates = {from: from, to: to}
-
-     console.log(dates);
-    
-      this.$emit("handle-inputs", dates);
-
-    },
-    // handleDateFrom(event) {
-    //   if (!event.target.value) {
-    //     console.log("clear from");
-    //   }
-    //   this.dateFrom = event.target.value;
-    // },
-    // handleDateTo(event) {
-    //   if (!event.target.value) {
-    //     console.log("clear to");
-    //   }
-    //   this.dateTo = event.target.value;
-    // }
-  },
-  computed: {
-    utcDate() {
-      this.dateFrom ? this.dateFrom.toUTCString() : "no date";
+    handleDateTo(event) {
+      this.$emit("handle-input-to", event.target.value);
     },
   },
 };

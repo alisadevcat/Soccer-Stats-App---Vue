@@ -171,7 +171,11 @@ export default {
       errorMessage: "",
     };
   },
-  computed: {},
+  computed: {
+    computedProperty() {
+        return { from: this.dateFrom, to: this.dateTo };
+    }
+},
   methods: {
     setTime(dt) {
       let d = new Date(dt);
@@ -241,7 +245,6 @@ export default {
         } else if (err.request) {
           // client never received a response, or request never left
           this.errorMessage = "Ошибка сети";
-          s;
           console.log(err.request);
         } else {
           console.log("app mistake");
@@ -252,22 +255,20 @@ export default {
         this.isLoading = false;
       });
 
-    if (this.$route.params.code) {
-      axios({
-        method: "get",
-        url:
-          "http://api.football-data.org/v2/competitions/" +
-          this.$route.params.code,
-        headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
+    axios({
+      method: "get",
+      url:
+        "http://api.football-data.org/v2/competitions/" +
+        this.$route.params.id + "/matches",
+      headers: { "X-Auth-Token": "1e76ed510bd246519dedbf03833e5322" },
+    })
+      .then((response) => {
+        console.log(response);
+        this.breadCrumbs = [{ name: "Лиги" }, { name: response.data.name }];
       })
-        .then((response) => {
-          console.log(this.$route.params.code);
-          this.breadCrumbs = [{ name: "Лиги" }, { name: response.data.name }];
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 </script>

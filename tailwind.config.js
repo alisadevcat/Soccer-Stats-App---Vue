@@ -7,7 +7,7 @@ module.exports = {
         13: "repeat(5, minmax(100px, 1fr))",
         14: "repeat(3, minmax(200px, 1fr))",
         15: "repeat(2, minmax(100px, 1fr))",
-        16: "repeat(2, minmax(100px, 1fr))",
+        16: "repeat(2, minmax(50px, 1fr))",
       },
       fontSize: {
         'xs': '.75rem'
@@ -21,17 +21,16 @@ module.exports = {
     },
   },
   screens: {
-    xs: "440px",
     sm: "640px",
     // => @media (min-width: 640px) { ... }
 
-    md: "768px",
+    md: "1024px",
     // => @media (min-width: 768px) { ... }
 
-    lg: "1024px",
+    lg: "1366px",
     // => @media (min-width: 1024px) { ... }
 
-    xl: "1280px",
+    xl: "1920px",
     // => @media (min-width: 1280px) { ... }
   },
   plugins: [],

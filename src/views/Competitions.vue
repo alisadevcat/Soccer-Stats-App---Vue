@@ -14,7 +14,7 @@
     />
 
     <div
-      class="grid xl:grid-cols-14 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-16 xs:grid-cols-16 md:gap-3 sm:gap-2 xs:gap-1 gap-4 place-content-center"
+      class="grid xl:grid-cols-14 lg:grid-cols-4 md:grid-cols-3 md:gap-3 sm:grid-cols-16 sm:gap-1 gap-4 place-content-center"
     >
       <div
         class="border rounded-sm border-black border-solid py-12 text-center"
