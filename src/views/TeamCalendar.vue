@@ -214,11 +214,18 @@ export default {
       let date = `${d.getDate()}-${month}-${d.getFullYear()}`;
       return date;
     },
+     localizeDate(date) {
+      if (!date || !date.includes("-")) return date;
+      const [yyyy, mm, dd] = date.split("-");
+      
+      return new Date(`${mm}/${dd}/${yyyy}`);
+    },
     handleDateInputTo(to) {
-      this.dateTo = to;
+    let date = new Date().getFullYear() + '-'+ '0' + new Date().getMonth() + '-'+'0' +  new Date().getDate();
+     to ? this.dateTo = to : this.dateTo = date;
     },
     handleDateInputFrom(from) {
-      this.dateFrom = from;
+   from ? this.dateFrom = from : this.dateTo = null;
     },
     handleFromTo() {
       axios({
