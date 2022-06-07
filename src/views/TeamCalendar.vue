@@ -1,5 +1,9 @@
 <template>
-  <div class="container mx-auto max-w-screen-xl px-3 box-border">
+  <app-preloader v-if="isLoading" />
+  <div
+    v-if="!isLoading"
+    class="container mx-auto max-w-screen-xl px-3 box-border"
+  >
     <div class="text-center"><h1>Календарь команды</h1></div>
 
     <app-breadcrumbs :breadcrumbs="breadCrumbs" />
@@ -8,10 +12,24 @@
     <div class="oveflow-auto rounded-lg shadow">
       <table class="min-w-full border-collapse block md:table">
         <thead class="block md:table-header-group">
-          <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto md:relative">
-            <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"> Дата </th>
-            <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"> Время</th>
-            <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"> Статус</th>
+          <tr
+            class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto md:relative"
+          >
+            <th
+              class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"
+            >
+              Дата
+            </th>
+            <th
+              class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"
+            >
+              Время
+            </th>
+            <th
+              class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"
+            >
+              Статус
+            </th>
             <th
               class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"
             >
@@ -47,43 +65,73 @@
               <span v-if="match.utcDate">{{ setDate(match.utcDate) }} </span>
             </td>
             <td
-              class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+              class="p-2 md:border md:border-grey-500 text-left block md:table-cell"
+            >
               <span class="inline-block w-1/3 md:hidden font-bold">Время</span>
               <span v-if="match.utcDate">{{ setTime(match.utcDate) }}</span>
             </td>
             <td
-              class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+              class="p-2 md:border md:border-grey-500 text-left block md:table-cell"
+            >
               <span class="inline-block w-1/3 md:hidden font-bold">Статус</span>
               <span v-if="match.status">{{ match.status }}</span>
             </td>
             <td
-              class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-              <span class="inline-block w-1/3 md:hidden font-bold">Команды участники</span>
+              class="p-2 md:border md:border-grey-500 text-left block md:table-cell"
+            >
+              <span class="inline-block w-1/3 md:hidden font-bold"
+                >Команды участники</span
+              >
               <span v-if="match.homeTeam.name && match.awayTeam.name">
-              {{ match.homeTeam.name }} - {{ match.awayTeam.name }}</span>
+                {{ match.homeTeam.name }} - {{ match.awayTeam.name }}</span
+              >
             </td>
-            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                 <span class="inline-block w-1/3 md:hidden font-bold">Счёт в основное время</span>
-              <span v-if="match.score.fullTime.homeTeam && match.score.fullTime.awayTeam">
+            <td
+              class="p-2 md:border md:border-grey-500 text-left block md:table-cell"
+            >
+              <span class="inline-block w-1/3 md:hidden font-bold"
+                >Счёт в основное время</span
+              >
+              <span
+                v-if="
+                  match.score.fullTime.homeTeam && match.score.fullTime.awayTeam
+                "
+              >
                 {{ match.score.fullTime.homeTeam }} :
                 {{ match.score.fullTime.awayTeam }}
               </span>
             </td>
-            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell" >
-                <span class="inline-block w-1/3 md:hidden font-bold">Счёт в дополнительное время</span>
-              <span v-if="
+            <td
+              class="p-2 md:border md:border-grey-500 text-left block md:table-cell"
+            >
+              <span class="inline-block w-1/3 md:hidden font-bold"
+                >Счёт в дополнительное время</span
+              >
+              <span
+                v-if="
                   match.score.extraTime.homeTeam &&
-                  match.score.extraTime.awayTeam">
+                  match.score.extraTime.awayTeam
+                "
+              >
                 {{ match.score.extraTime.homeTeam }} :
-                {{ match.score.extraTime.awayTeam }}</span>
+                {{ match.score.extraTime.awayTeam }}</span
+              >
             </td>
-            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                   <span class="inline-block w-1/3 md:hidden font-bold">Пенальти</span>
-              <span v-if="
+            <td
+              class="p-2 md:border md:border-grey-500 text-left block md:table-cell"
+            >
+              <span class="inline-block w-1/3 md:hidden font-bold"
+                >Пенальти</span
+              >
+              <span
+                v-if="
                   match.score.penalties.homeTeam &&
-                  match.score.penalties.awayTeam">
+                  match.score.penalties.awayTeam
+                "
+              >
                 {{ match.score.penalties.homeTeam }} :
-                {{ match.score.penalties.awayTeam }}</span>
+                {{ match.score.penalties.awayTeam }}</span
+              >
             </td>
           </tr>
         </tbody>
@@ -92,6 +140,7 @@
         <h2>{{ errorMessage }}</h2>
       </div>
     </div>
+
     <div class="text-center">
       <p ref="not_found"></p>
     </div>
@@ -113,6 +162,8 @@ import AppBreadcrumbs from "../components/Breadcrumbs.vue";
 import AppDateFilter from "../components/DateFilter.vue";
 import "@ocrv/vue-tailwind-pagination/dist/style.css";
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
+import AppPreloader from "../components/Preloader.vue";
+
 import axios from "axios";
 
 export default {
@@ -120,6 +171,7 @@ export default {
     AppSearch,
     AppBreadcrumbs,
     AppDateFilter,
+    AppPreloader,
     VueTailwindPagination,
   },
   data() {
@@ -133,6 +185,8 @@ export default {
       total: null,
       dateFrom: null,
       dateTo: null,
+      isLoading: false,
+      errorMessage: "",
     };
   },
   methods: {
@@ -157,26 +211,26 @@ export default {
       let date = `${d.getDate()}-${month}-${d.getFullYear()}`;
       return date;
     },
-    handleDateInputs(from, to) {
-      if (from || to) {
+    handleDateInputs(dates) {
+      if (dates.from || dates.to) {
         let filteredMatches = this.matches.filter(function (item) {
           let dateUtc = new Date(item.utcDate);
           //console.log(dateUtc);
 
-          if (from && to) {
+          if (dates.from && dates.to) {
             // console.log(dateUtc.getTime() >= from.getTime() && dateUtc.getTime() <= to.getTime() + '' + 'from-to');
             return (
-              dateUtc.getTime() >= from.getTime() &&
-              dateUtc.getTime() <= to.getTime()
+              dateUtc.getTime() >= dates.from.getTime() &&
+              dateUtc.getTime() <= dates.to.getTime()
             );
-          } else if (from && !to) {
-            console.log(dateUtc.getTime() >= from.getTime());
+          } else if (dates.from && !dates.to) {
+            console.log(dateUtc.getTime() >= dates.from.getTime());
 
-            return dateUtc.getTime() >= from.getTime();
-          } else if (to && !from) {
+            return dateUtc.getTime() >= dates.from.getTime();
+          } else if (dates.to && !dates.from) {
             //console.log(dateUtc.getTime() >= from.getTime() + + '' + 'to');
 
-            return dateUtc.getTime() <= to.getTime();
+            return dateUtc.getTime() <= dates.to.getTime();
           }
 
           return true;
@@ -204,7 +258,8 @@ export default {
       return this.paginate(this.matches);
     },
   },
-  created() {
+  mounted() {
+    this.isLoading = true;
     axios({
       method: "get",
       url:
@@ -233,6 +288,9 @@ export default {
           console.log("app mistake");
           // anything else
         }
+      })
+      .finally(() => {
+        this.isLoading = false;
       });
 
     axios({

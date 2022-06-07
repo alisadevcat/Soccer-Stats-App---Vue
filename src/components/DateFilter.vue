@@ -2,7 +2,7 @@
   <div class="mt-1 mb-3 flex flex-column">
 
     <div date-rangepicker class="flex items-center">
-          <span class="pr-2 mt-2">Матчи</span>
+      <span class="mr-4">Матчи</span>
       <span class="mr-4 text-gray-500">с</span>
       <div class="relative">
         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
@@ -75,16 +75,31 @@ export default {
     localizeDate(date) {
       if (!date || !date.includes("-")) return date;
       const [yyyy, mm, dd] = date.split("-");
-      //console.log(new Date(`${mm}/${dd}/${yyyy}`));
+      
       return new Date(`${mm}/${dd}/${yyyy}`);
     },
     handleDates() {
       let from = this.localizeDate(this.dateFrom);
       let to = this.localizeDate(this.dateTo);
+      let dates = {from: from, to: to}
+
+     console.log(dates);
     
-      this.$emit("handle-inputs", from, to);
+      this.$emit("handle-inputs", dates);
 
     },
+    // handleDateFrom(event) {
+    //   if (!event.target.value) {
+    //     console.log("clear from");
+    //   }
+    //   this.dateFrom = event.target.value;
+    // },
+    // handleDateTo(event) {
+    //   if (!event.target.value) {
+    //     console.log("clear to");
+    //   }
+    //   this.dateTo = event.target.value;
+    // }
   },
   computed: {
     utcDate() {
