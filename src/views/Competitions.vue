@@ -99,13 +99,17 @@ export default {
       this.posts = search_results;
 
       this.total = this.posts.length;
-      if (obj.no_results_text) {
+
+      if (obj.no_results_text.length) {
         this.$refs.not_found.innerText = obj.no_results_text;
+      } else {
+         this.$refs.not_found.innerText = "";
       }
     },
     handleInput(obj) {
       this.posts = obj.result_posts;
       this.total = obj.result_posts.length;
+       this.$refs.not_found.innerText = obj.no_results_text;
     },
     onPageClick(event) {
       this.currentPage = event;

@@ -149,6 +149,12 @@ export default {
         this.teams = teams;
         this.originalTeams = teams;
         this.total = teams.length;
+        console.log(
+          this.teams.map((i) => {
+            const { id, name, crestUrl } = i;
+            i = { ...id, ...name, ...crestUrl };
+          })
+        );
       })
       .catch((err) => {
         if (err.response) {

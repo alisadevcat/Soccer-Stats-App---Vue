@@ -10,46 +10,14 @@
               <input
                 type="search"
                 name="search"
-                :value="searchString"
+                v-model="searchString"
                 @input="handleInput"
-                class="
-                  block
-                  p-2.5
-                  w-full
-                  z-20
-                  text-sm text-gray-900
-                  bg-gray-50
-                  rounded-r-lg
-                  border-l-gray-50 border-l-2 border border-gray-300
-                  focus:ring-blue-500 focus:border-blue-500
-                  dark:bg-gray-700
-                  dark:border-l-gray-700
-                  dark:border-gray-600
-                  dark:placeholder-gray-400
-                  dark:text-white
-                  dark:focus:border-blue-500
-                "
+                class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
                 placeholder="Search..."
               />
               <button
                 type="submit"
-                class="
-                  absolute
-                  top-0
-                  right-0
-                  p-2.5
-                  text-sm
-                  font-medium
-                  text-white
-                  bg-blue-700
-                  rounded-r-lg
-                  border border-blue-700
-                  hover:bg-blue-800
-                  focus:ring-4 focus:outline-none focus:ring-blue-300
-                  dark:bg-blue-600
-                  dark:hover:bg-blue-700
-                  dark:focus:ring-blue-800
-                "
+                class="absolute top-0 right-0 p-2.5 text-sm font-medium text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 <svg
                   class="w-5 h-5"
@@ -94,24 +62,29 @@ export default {
   },
   methods: {
     searchSubmit() {
+      if (!this.searchString) {
+        const obj = {
+          result_posts: this.originalPosts,
+          no_results_text: "",
+        };
+      }
+
       let strLowCase = this.searchString.toLowerCase();
 
       let result_array = this.posts.map((item) => (item = Object.values(item)));
 
-
       result_array = result_array.map((item) => (item = String(item)));
- 
+
       let results = result_array.filter((post) => {
         return post.toLowerCase().includes(strLowCase);
       });
 
-
-     let search_results = results.map((element) => element.split(","));
+      let search_results = results.map((element) => element.split(","));
 
       if (this.searchString) {
         this.search_posts = search_results;
 
-        if (!results.length) {
+        if (!search_results.length) {
           this.no_result_text = "No results found";
         }
       } else {
@@ -130,8 +103,9 @@ export default {
       if (!event.target.value) {
         const obj = {
           result_posts: this.originalPosts,
+          no_results_text: "",
         };
-        console.log("clear input");
+
         this.$emit("handleInput", obj);
       }
       this.searchString = event.target.value;
