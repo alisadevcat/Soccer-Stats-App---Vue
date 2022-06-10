@@ -101,19 +101,12 @@ export default {
 
       this.posts = search_results;
       this.total = this.posts.length;
-       this.$refs.not_found.innerText = obj.no_results_text;
-      // if (!search_results.length) {
-      //   this.$refs.not_found.innerText = obj.no_results_text;
-      // }
-      // this.$refs.not_found.innerText = "";
-       
-  // console.log(`submit ${obj.no_results_text}`);
+      this.$refs.not_found.innerText = obj.no_results_text;
     },
     handleClearInput(obj) {
       this.posts = obj.result_posts;
       this.total = obj.result_posts.length;
       this.$refs.not_found.innerText = obj.no_results_text;
-      // console.log(`input clear ${obj.no_results_text}`);
     },
     onPageClick(event) {
       this.currentPage = event;
@@ -137,7 +130,9 @@ export default {
       .then((response) => {
         this.isLoading = true;
 
-        let competitions = response.data?.competitions.map((item) =>(item = {
+        let competitions = response.data?.competitions.map(
+          (item) =>
+            (item = {
               id: item.id,
               name: item.name,
               area: item.area.name,
@@ -149,11 +144,14 @@ export default {
       })
       .catch((err) => {
         if (err.response) {
-          // client received an error response (5xx, 4xx)
+          this.errorMessage =
+            "Не удалось загрузить данные из-за ошибки доступа";
+          console.log(err.response);
         } else if (err.request) {
-          // client never received a response, or request never left
+          this.errorMessage = "Ошибка сети";
+          console.log(err.request);
         } else {
-          // anything else
+          console.log("app mistake");
         }
       })
       .finally(() => {

@@ -104,12 +104,6 @@ export default {
 
       this.$emit("handleSubmit", obj);
 
-      // console.group("string");
-      // console.log(this.searchString);
-      // console.group("result_array");
-      // console.log(result_array);
-      // console.group("results");
-      // console.log(results);
     },
     handleClearInput(event) {
       if (!event.target.value) {
@@ -124,10 +118,18 @@ export default {
     },
   },
 };
-</script>
 
 // let result_array = this.originalPosts.map( // (item) => (item =
-Object.values(item)) // ); // result_array = result_array.map((item) => (item =
-String(item))); // let results = result_array.filter((post) => { // return
-post.toLowerCase().includes(strLowCase); // }); // let search_results =
-results.map((element) => element.split(","));
+//Object.values(item)) // ); // result_array = result_array.map((item) => (item =
+//String(item))); // let results = result_array.filter((post) => { // return
+//post.toLowerCase().includes(strLowCase); // }); // let search_results =
+//results.map((element) => element.split(","));
+// console.group("string");
+// console.log(this.searchString);
+// console.group("result_array");
+// console.log(result_array);
+// console.group("results");
+// console.log(results);
+
+</script>
+

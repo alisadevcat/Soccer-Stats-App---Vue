@@ -10,7 +10,7 @@
     <app-search
       :originalPosts="originalTeams"
       @handle-submit="handleSubmit"
-      @handle-input="handleInput"
+     @handle-clear-input="handleClearInput"
     />
 
     <div
@@ -116,12 +116,9 @@ export default {
 
       this.teams = search_results;
       this.total = this.teams.length;
-        if (!search_results.length) {
-          this.$refs.not_found.innerText = "No posts found";
-        }
-      this.$refs.not_found.innerText = ""
+      this.$refs.not_found.innerText = obj.no_results_text;
     },
-    handleInput(obj) {
+    handleClearInput(obj) {
       this.teams = obj.result_posts;
       this.total = obj.result_posts.length;
       this.$refs.not_found.innerText = obj.no_results_text;
