@@ -1,7 +1,10 @@
 <template>
   <app-preloader v-if="isLoading" />
 
-  <div v-if="!isLoading" class="container mx-auto max-w-screen-xl px-3 box-border">
+  <div
+    v-if="!isLoading"
+    class="container mx-auto max-w-screen-xl px-3 box-border"
+  >
     <div class="text-center">
       <h1>Лиги</h1>
     </div>
@@ -96,20 +99,15 @@ export default {
           code: arr[index][3],
         };
       });
+
       this.posts = search_results;
-
       this.total = this.posts.length;
-
-      if (obj.no_results_text.length) {
-        this.$refs.not_found.innerText = obj.no_results_text;
-      } else {
-         this.$refs.not_found.innerText = "";
-      }
+      this.$refs.not_found.innerText = obj.no_results_text;
     },
     handleInput(obj) {
       this.posts = obj.result_posts;
       this.total = obj.result_posts.length;
-       this.$refs.not_found.innerText = obj.no_results_text;
+      this.$refs.not_found.innerText = obj.no_results_text;
     },
     onPageClick(event) {
       this.currentPage = event;

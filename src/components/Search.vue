@@ -11,7 +11,7 @@
                 type="search"
                 name="search"
                 v-model="searchString"
-                @input="handleInput"
+                @keyup="handleClearInput"
                 class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
                 placeholder="Search..."
               />
@@ -62,16 +62,9 @@ export default {
   },
   methods: {
     searchSubmit() {
-      if (!this.searchString) {
-        const obj = {
-          result_posts: this.originalPosts,
-          no_results_text: "",
-        };
-      }
-
       let strLowCase = this.searchString.toLowerCase();
 
-      let result_array = this.posts.map((item) => (item = Object.values(item)));
+      let result_array = this.originalPosts.map((item) => (item = Object.values(item)));
 
       result_array = result_array.map((item) => (item = String(item)));
 
@@ -85,10 +78,21 @@ export default {
         this.search_posts = search_results;
 
         if (!search_results.length) {
-          this.no_result_text = "No results found";
+          this.no_result_text = "No posts found";
         }
+
+        console.group("search results");
+        console.log(search_results);
+       console.group("string");
+        console.log(this.searchString);
+        console.group("result_array");
+        console.log(result_array);
+    console.group("results");
+        console.log(results);
+
       } else {
         this.search_posts = this.originalPosts;
+        this.no_result_text = "";
         //console.log(this.originalPosts);
       }
 
@@ -99,15 +103,17 @@ export default {
 
       this.$emit("handleSubmit", obj);
     },
-    handleInput(event) {
+    handleClearInput(event) {
       if (!event.target.value) {
         const obj = {
           result_posts: this.originalPosts,
-          no_results_text: "",
+          no_results_text: this.no_result_text,
         };
-
+        console.log("clear input");
         this.$emit("handleInput", obj);
       }
+
+      console.log(`event target + ${event.target.value}`);
       this.searchString = event.target.value;
     },
   },
