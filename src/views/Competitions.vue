@@ -10,14 +10,14 @@
     </div>
 
     <app-search
-      :posts="posts"
       :originalPosts="originalPosts"
       @handle-submit="handleSubmit"
-      @handle-input="handleInput"
+      @handle-clear-input="handleClearInput"
     />
 
     <div
       class="grid xl:grid-cols-14 lg:grid-cols-4 md:grid-cols-3 md:gap-3 sm:grid-cols-16 sm:gap-1 gap-4 place-content-center"
+      v-if="displayedPosts"
     >
       <div
         class="border rounded-sm border-black border-solid py-12 text-center"
@@ -96,18 +96,24 @@ export default {
           id: arr[index][0],
           name: arr[index][1],
           area: arr[index][2],
-          code: arr[index][3],
         };
       });
 
       this.posts = search_results;
       this.total = this.posts.length;
-      this.$refs.not_found.innerText = obj.no_results_text;
+       this.$refs.not_found.innerText = obj.no_results_text;
+      // if (!search_results.length) {
+      //   this.$refs.not_found.innerText = obj.no_results_text;
+      // }
+      // this.$refs.not_found.innerText = "";
+       
+  // console.log(`submit ${obj.no_results_text}`);
     },
-    handleInput(obj) {
+    handleClearInput(obj) {
       this.posts = obj.result_posts;
       this.total = obj.result_posts.length;
       this.$refs.not_found.innerText = obj.no_results_text;
+      // console.log(`input clear ${obj.no_results_text}`);
     },
     onPageClick(event) {
       this.currentPage = event;
@@ -131,13 +137,10 @@ export default {
       .then((response) => {
         this.isLoading = true;
 
-        let competitions = response.data?.competitions.map(
-          (item) =>
-            (item = {
+        let competitions = response.data?.competitions.map((item) =>(item = {
               id: item.id,
               name: item.name,
               area: item.area.name,
-              code: item.code,
             })
         );
         this.posts = competitions;

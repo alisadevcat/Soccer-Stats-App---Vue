@@ -47,7 +47,6 @@ import IconSearch from "./icons/IconSearch.vue";
 
 export default {
   props: {
-    posts: Array,
     originalPosts: Array,
   },
   components: {
@@ -61,39 +60,41 @@ export default {
     };
   },
   methods: {
-    searchSubmit() {
+    filterPosts(arr) {
       let strLowCase = this.searchString.toLowerCase();
 
-      let result_array = this.originalPosts.map((item) => (item = Object.values(item)));
-
-      result_array = result_array.map((item) => (item = String(item)));
+      let result_array = this.createObjforFilter(arr);
 
       let results = result_array.filter((post) => {
         return post.toLowerCase().includes(strLowCase);
       });
+      return this.splitArr(results);
+    },
+    createObjforFilter(arr) {
+      let result_array = arr.map((item) => (item = Object.values(item)));
 
-      let search_results = results.map((element) => element.split(","));
+      result_array = result_array.map((item) => (item = String(item)));
+      return result_array;
+    },
+    splitArr(arr) {
+      return arr.map((element) => element.split(","));
+    },
+    searchSubmit() {
+      let search_results = this.filterPosts(this.originalPosts);
 
       if (this.searchString) {
         this.search_posts = search_results;
 
-        if (!search_results.length) {
+        if (!this.search_posts.length) {
           this.no_result_text = "No posts found";
         }
-
-        console.group("search results");
-        console.log(search_results);
-       console.group("string");
-        console.log(this.searchString);
-        console.group("result_array");
-        console.log(result_array);
-    console.group("results");
-        console.log(results);
-
+        //console.log("+" + "" + this.no_result_text);
       } else {
-        this.search_posts = this.originalPosts;
+        this.search_posts = this.splitArr(
+          this.createObjforFilter(this.originalPosts)
+        );
         this.no_result_text = "";
-        //console.log(this.originalPosts);
+        //console.log("-" + "" + this.no_result_text);
       }
 
       const obj = {
@@ -102,20 +103,31 @@ export default {
       };
 
       this.$emit("handleSubmit", obj);
+
+      // console.group("string");
+      // console.log(this.searchString);
+      // console.group("result_array");
+      // console.log(result_array);
+      // console.group("results");
+      // console.log(results);
     },
     handleClearInput(event) {
       if (!event.target.value) {
         const obj = {
           result_posts: this.originalPosts,
-          no_results_text: this.no_result_text,
+          no_results_text: " ",
         };
-        console.log("clear input");
-        this.$emit("handleInput", obj);
-      }
 
-      console.log(`event target + ${event.target.value}`);
+        this.$emit("handleClearInput", obj);
+      }
       this.searchString = event.target.value;
     },
   },
 };
 </script>
+
+// let result_array = this.originalPosts.map( // (item) => (item =
+Object.values(item)) // ); // result_array = result_array.map((item) => (item =
+String(item))); // let results = result_array.filter((post) => { // return
+post.toLowerCase().includes(strLowCase); // }); // let search_results =
+results.map((element) => element.split(","));

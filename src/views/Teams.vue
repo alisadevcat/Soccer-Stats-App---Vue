@@ -8,14 +8,13 @@
       <h1>Команды</h1>
     </div>
     <app-search
-      :posts="teams"
       :originalPosts="originalTeams"
       @handle-submit="handleSubmit"
       @handle-input="handleInput"
     />
 
     <div
-      class="grid xl:grid-cols-13 lg:grid-cols-13 md:grid-cols-3 sm:grid-cols-3 xs:grid-cols-2 gap-2 place-content-center"
+      class="grid xl:grid-cols-13 lg:grid-cols-13 md:grid-cols-3 sm:grid-cols-3 xs:grid-cols-2 gap-2 place-content-center" v-if="displayedPosts"
     >
       <div
         class="border rounded-sm border-black border-solid py-12 text-center"
@@ -117,13 +116,15 @@ export default {
 
       this.teams = search_results;
       this.total = this.teams.length;
-      if (obj.no_results_text) {
-        this.$refs.not_found.innerText = obj.no_results_text;
-      }
+        if (!search_results.length) {
+          this.$refs.not_found.innerText = "No posts found";
+        }
+      this.$refs.not_found.innerText = ""
     },
     handleInput(obj) {
       this.teams = obj.result_posts;
       this.total = obj.result_posts.length;
+      this.$refs.not_found.innerText = obj.no_results_text;
     },
   },
   computed: {
