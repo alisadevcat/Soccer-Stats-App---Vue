@@ -225,7 +225,7 @@ export default {
      to ? this.dateTo = to : this.dateTo = date;
     },
     handleDateInputFrom(from) {
-   from ? this.dateFrom = from : this.dateTo = null;
+   from ? this.dateFrom = from : this.dateFrom = null;
     },
     handleFromTo() {
       axios({
